@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Sample page</title>
+        <title>Cricket MSF sample page</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                sendRequest();
+            });
+        
+            function sendRequest(){
+                $.ajax({
+                    url: "/echo",
+                    data: {
+                        name: "John",
+                        surname: "Smith"
+                    },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (json) {
+                        modifyContent(json);
+                    }
+                });
+            };
+
+            function modifyContent(jsonObject){
+                $("#name").html(jsonObject.data.name);
+                $("#surname").html(jsonObject.data.surname);
+                $("#code").html(jsonObject.code);
+            };
+        </script>
     </head>
     <body>
-        <div>Hello $name!</div>
+        <div><h1>Ajax to EchoHttpAdapter example</h1></div>
+        <div class="content">
+            <table>
+                <tr><td>data.name:</td><td id="name"></td></tr>
+                <tr><td>data.surname:</td><td id="surname"></td></tr>
+		<tr><td>response code:</td><td id="code"></td></tr>
+            </table>
+        </div>
     </body>
 </html>
