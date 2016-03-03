@@ -1,11 +1,11 @@
-#cricket-starter
-
-## Prerequisites
+Prerequisites
+=============
 
 * Java 8 (Oracle JDK or OpenJDK)
 * Apache Ant
 
-## Quick start
+Quick start
+===========
 
 1. Get starter template from GitHub
 
@@ -18,7 +18,7 @@
 
 3. Run
 
-    java -jar dist/basicservice-1.0.0.jar -h
+    java -jar dist/basicservice-1.0.0.jar --help
 
 4. Modify - create your derived service
  
