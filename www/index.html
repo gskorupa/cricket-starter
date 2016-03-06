@@ -5,12 +5,36 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <style>
+            body {
+                font-family: Tahoma, Geneva, sans-serif;
+                background-color: #ccffcc;
+            }
+            table {
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 1px solid black;
+                width: 100%;
+            }
+            th, td {
+                padding: 5px;
+                text-align: left;
+            }
+            th {
+                background-color: yellowgreen;
+            }
+            footer {
+                margin-top: 10px;
+                font-size: 75%;
+            }
+        </style>
         <script>
             $(document).ready(function () {
                 sendRequest();
             });
-        
-            function sendRequest(){
+
+            function sendRequest() {
                 $.ajax({
                     url: "/echo",
                     data: {
@@ -23,23 +47,32 @@
                         modifyContent(json);
                     }
                 });
-            };
+            }
+            ;
 
-            function modifyContent(jsonObject){
+            function modifyContent(jsonObject) {
                 $("#name").html(jsonObject.data.name);
                 $("#surname").html(jsonObject.data.surname);
                 $("#code").html(jsonObject.code);
-            };
+            }
+            ;
         </script>
     </head>
     <body>
-        <div><h1>Ajax to EchoHttpAdapter example</h1></div>
-        <div class="content">
+        <div>
+            <h1>Echo service</h1>
+            <h5>Web GUI example</h5>
+        </div>
+        <div>
             <table>
+                <tr><th>Paremeter name</th><th>Value</th></tr>
                 <tr><td>data.name:</td><td id="name"></td></tr>
                 <tr><td>data.surname:</td><td id="surname"></td></tr>
-		<tr><td>response code:</td><td id="code"></td></tr>
+                <tr><td>response code:</td><td id="code"></td></tr>
             </table>
+        </div>
+        <div>
+            <footer>Build with <a href="https://github.com/gskorupa/cricket-starter">Cricket Microservices Framework</a></footer>
         </div>
     </body>
 </html>

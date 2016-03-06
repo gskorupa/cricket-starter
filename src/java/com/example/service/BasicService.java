@@ -59,12 +59,12 @@ public class BasicService extends Kernel {
 
     @Override
     public void getAdapters() {
-        logAdapter = (LoggerAdapterIface)getRegistered(LoggerAdapterIface.class);
-        httpAdapter = (EchoHttpAdapterIface)getRegistered(EchoHttpAdapterIface.class);
-        cache = (KeyValueCacheAdapterIface)getRegistered(KeyValueCacheAdapterIface.class);
-        scheduler = (SchedulerIface)getRegistered(SchedulerIface.class);
-        htmlAdapter = (HtmlGenAdapterIface)getRegistered(HtmlGenAdapterIface.class);
-        htmlReaderAdapter = (HtmlReaderAdapterIface)getRegistered(HtmlReaderAdapterIface.class);
+        logAdapter = (LoggerAdapterIface) getRegistered(LoggerAdapterIface.class);
+        httpAdapter = (EchoHttpAdapterIface) getRegistered(EchoHttpAdapterIface.class);
+        cache = (KeyValueCacheAdapterIface) getRegistered(KeyValueCacheAdapterIface.class);
+        scheduler = (SchedulerIface) getRegistered(SchedulerIface.class);
+        htmlAdapter = (HtmlGenAdapterIface) getRegistered(HtmlGenAdapterIface.class);
+        htmlReaderAdapter = (HtmlReaderAdapterIface) getRegistered(HtmlReaderAdapterIface.class);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class BasicService extends Kernel {
         result.setData(data);
         return result;
     }
-    
+
     @HttpAdapterHook(handlerClassName = "EchoHttpAdapterIface", requestMethod = "GET")
     public Object doGetEcho(Event requestEvent) {
         return sendEcho((RequestObject) requestEvent.getPayload());
@@ -114,16 +114,16 @@ public class BasicService extends Kernel {
 
     @EventHook(eventCategory = "*")
     public void processEvent(Event event) {
-        if(event.getTimePoint()!=null){
+        if (event.getTimePoint() != null) {
             scheduler.handleEvent(event);
-        }else{
+        } else {
             System.out.println(event.getPayload().toString());
         }
         //does nothing
     }
 
     public Object sendEcho(RequestObject request) {
-        
+
         //
         Long counter;
         counter = (Long) cache.get("counter", new Long(0));
@@ -133,9 +133,10 @@ public class BasicService extends Kernel {
         ParameterMapResult r = new ParameterMapResult();
         HashMap<String, Object> data = new HashMap();
         Map<String, Object> map = request.parameters;
+        data.put("service.uuid", getUuid());
         data.put("request.method", request.method);
         data.put("request.pathExt", request.pathExt);
-        data.put("echo counter", cache.get("counter"));
+        data.put("echo.counter", cache.get("counter"));
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             //System.out.println(entry.getKey() + "=" + entry.getValue());
             data.put(entry.getKey(), (String) entry.getValue());
@@ -149,7 +150,7 @@ public class BasicService extends Kernel {
         r.setData(data);
         return r;
     }
-    
+
     private Result getFile(RequestObject request) {
         logEvent(new Event("EchoService", Event.CATEGORY_LOG, Event.LOG_FINEST, "", "STEP1"));
         byte[] fileContent = {};
@@ -187,5 +188,4 @@ public class BasicService extends Kernel {
         return result;
     }
 
-    
 }
