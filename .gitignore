@@ -4,3 +4,5 @@
 /dist/
 /nbproject/
 /src/src.zip
+/db/servicedb.trace.db
+/db/servicedb.h2.db

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.service;
+package org.cricketmsf.example;
 
 import org.cricketmsf.Event;
 import org.cricketmsf.EventHook;
@@ -29,6 +29,7 @@ import org.cricketmsf.in.http.HttpAdapter;
 import org.cricketmsf.in.http.ParameterMapResult;
 import org.cricketmsf.in.http.Result;
 import org.cricketmsf.in.scheduler.SchedulerIface;
+import org.cricketmsf.out.db.H2EmbededIface;
 import org.cricketmsf.out.db.KeyValueCacheAdapterIface;
 import org.cricketmsf.out.html.HtmlReaderAdapterIface;
 import org.cricketmsf.out.log.LoggerAdapterIface;
@@ -47,6 +48,7 @@ public class BasicService extends Kernel {
     SchedulerIface scheduler = null;
     HtmlGenAdapterIface htmlAdapter = null;
     HtmlReaderAdapterIface htmlReaderAdapter = null;
+    H2EmbededIface embededDatabase = null;
 
     @Override
     public void getAdapters() {
@@ -56,12 +58,14 @@ public class BasicService extends Kernel {
         scheduler = (SchedulerIface) getRegistered("SchedulerIface");
         htmlAdapter = (HtmlGenAdapterIface) getRegistered("HtmlGenAdapterIface");
         htmlReaderAdapter = (HtmlReaderAdapterIface) getRegistered("HtmlReaderAdapterIface");
+        embededDatabase = (H2EmbededIface) getRegistered("H2EmbededIface");
     }
 
     @Override
     public void runOnce() {
         super.runOnce();
         System.out.println("Hello from BasicService.runOnce()");
+        System.out.println(embededDatabase.getVersion());
     }
 
     @HttpAdapterHook(handlerClassName = "HtmlGenAdapterIface", requestMethod = "GET")
