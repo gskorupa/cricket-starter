@@ -20,7 +20,7 @@
 
 3. Run
 
-   java -jar dist/basicservice-1.0.0.jar --help
+   `java -jar dist/basicservice-1.0.0.jar --help`
 
 4. Modify the code - create your derived service
  
