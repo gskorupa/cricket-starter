@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import org.cricketmsf.Adapter;
 import org.cricketmsf.Event;
 import org.cricketmsf.Kernel;
 import org.cricketmsf.out.OutboundAdapter;
@@ -29,7 +30,7 @@ import org.h2.jdbcx.JdbcConnectionPool;
  *
  * @author greg
  */
-public class H2Embeded extends OutboundAdapter implements H2EmbededIface {
+public class H2Embeded extends OutboundAdapter implements H2EmbededIface, Adapter {
 
     JdbcConnectionPool cp;
     String location;
@@ -37,7 +38,7 @@ public class H2Embeded extends OutboundAdapter implements H2EmbededIface {
     String fileName;
     String testQuery;
 
-    public void loadProperties(HashMap<String, String> properties) {
+    public void loadProperties(HashMap<String, String> properties, String adapterName) {
         path = properties.get("path");
         System.out.println("path=" + path);
         fileName = properties.get("file");
