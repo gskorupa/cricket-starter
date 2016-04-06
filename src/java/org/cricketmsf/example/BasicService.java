@@ -28,6 +28,7 @@ import org.cricketmsf.in.http.HtmlGenAdapterIface;
 import org.cricketmsf.in.http.HttpAdapter;
 import org.cricketmsf.in.http.ParameterMapResult;
 import org.cricketmsf.in.http.Result;
+import org.cricketmsf.in.http.StandardResult;
 import org.cricketmsf.in.scheduler.SchedulerIface;
 import org.cricketmsf.out.db.H2EmbededIface;
 import org.cricketmsf.out.db.KeyValueCacheAdapterIface;
@@ -64,6 +65,7 @@ public class BasicService extends Kernel {
     @Override
     public void runOnce() {
         super.runOnce();
+        handle(Event.logInfo("BasicService.runOnce()", "executed"));
         System.out.println("Hello from BasicService.runOnce()");
         System.out.println(embededDatabase.getVersion());
     }
@@ -71,34 +73,11 @@ public class BasicService extends Kernel {
     @HttpAdapterHook(adapterName = "HtmlGenAdapterIface", requestMethod = "GET")
     public Object doGet(Event event) {
         RequestObject request = (RequestObject) event.getPayload();
-        Result result = getFile(request);
-        HashMap<String, String> data = new HashMap();
-        //copy parameters from request to response data without modification
-        Map<String, Object> map = request.parameters;
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            data.put(entry.getKey(), (String) entry.getValue());
-        }
-        result.setData(data);
-        return result;
+        return htmlReaderAdapter.getFile(request);
     }
 
-    @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "GET")
+    @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "*")
     public Object doGetEcho(Event requestEvent) {
-        return sendEcho((RequestObject) requestEvent.getPayload());
-    }
-
-    @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "POST")
-    public Object doPost(Event requestEvent) {
-        return sendEcho((RequestObject) requestEvent.getPayload());
-    }
-
-    @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "PUT")
-    public Object doPut(Event requestEvent) {
-        return sendEcho((RequestObject) requestEvent.getPayload());
-    }
-
-    @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "DELETE")
-    public Object doDelete(Event requestEvent) {
         return sendEcho((RequestObject) requestEvent.getPayload());
     }
 
@@ -112,74 +91,36 @@ public class BasicService extends Kernel {
         if (event.getTimePoint() != null) {
             scheduler.handleEvent(event);
         } else {
-            System.out.println(event.getPayload().toString());
+            handle(Event.logInfo("EchoService", event.getPayload().toString()));
         }
-        //does nothing
     }
 
     public Object sendEcho(RequestObject request) {
-
-        //
-        Long counter;
-        counter = (Long) cache.get("counter", new Long(0));
-        counter++;
-        cache.put("counter", counter);
-
-        ParameterMapResult r = new ParameterMapResult();
-        HashMap<String, Object> data = new HashMap();
-        Map<String, Object> map = request.parameters;
-        data.put("service.uuid", getUuid().toString());
-        data.put("request.method", request.method);
-        data.put("request.pathExt", request.pathExt);
-        data.put("echo.counter", cache.get("counter"));
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            data.put(entry.getKey(), (String) entry.getValue());
+        StandardResult r = new StandardResult();
+        r.setCode(HttpAdapter.SC_OK);
+        if (!httpAdapter.isSilent()) {
+            // with echo counter
+            Long counter;
+            counter = (Long) cache.get("counter", new Long(0));
+            counter++;
+            cache.put("counter", counter);
+            HashMap<String, Object> data = new HashMap(request.parameters);
+            data.put("service.uuid", getUuid().toString());
+            data.put("request.method", request.method);
+            data.put("request.pathExt", request.pathExt);
+            data.put("echo.counter", cache.get("counter"));
+            if (data.containsKey("error")) {
+                int errCode = HttpAdapter.SC_INTERNAL_SERVER_ERROR;
+                try {
+                    errCode = Integer.parseInt((String) data.get("error"));
+                } catch (Exception e) {
+                }
+                r.setCode(errCode);
+                data.put("error", "error forced by request");
+            }
+            r.setData(data);
         }
-        if (data.containsKey("error")) {
-            r.setCode(HttpAdapter.SC_INTERNAL_SERVER_ERROR);
-            data.put("error", "error forced by request");
-        } else {
-            r.setCode(HttpAdapter.SC_OK);
-        }
-        r.setData(data);
         return r;
-    }
-
-    private Result getFile(RequestObject request) {
-        logEvent(new Event("EchoService", Event.CATEGORY_LOG, Event.LOG_FINEST, "", "STEP1"));
-        byte[] fileContent = {};
-        String filePath = request.pathExt;
-        logEvent(new Event("EchoService", Event.CATEGORY_LOG, Event.LOG_FINEST, "", "pathExt=" + filePath));
-        String fileExt = "";
-        if (!(filePath.isEmpty() || filePath.endsWith("/")) && filePath.indexOf(".") > 0) {
-            fileExt = filePath.substring(filePath.lastIndexOf("."));
-        }
-        Result result;
-        switch (fileExt.toLowerCase()) {
-            case ".jpg":
-            case ".jpeg":
-            case ".gif":
-            case ".png":
-                result = new FileResult();
-                break;
-            default:
-                fileExt = ".html";
-                result = new ParameterMapResult();
-        }
-        try {
-            byte[] b = htmlReaderAdapter.readFile(filePath);
-            result.setPayload(b);
-            result.setFileExtension(fileExt);
-            result.setCode(HttpAdapter.SC_OK);
-            result.setMessage("");
-        } catch (Exception e) {
-            logEvent(new Event("EchoService", Event.CATEGORY_LOG, Event.LOG_WARNING, "", e.getMessage()));
-            result.setPayload(fileContent);
-            result.setFileExtension(fileExt);
-            result.setCode(HttpAdapter.SC_NOT_FOUND);
-            result.setMessage("file not found");
-        }
-        return result;
     }
 
 }
