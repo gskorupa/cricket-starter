@@ -4,6 +4,7 @@
     "services": [
         {
             "@type": "org.cricketmsf.config.Configuration",
+            "id": "BasicService",
             "service": "org.cricketmsf.example.BasicService",
             "host": "0.0.0.0",
             "port": "8080",
