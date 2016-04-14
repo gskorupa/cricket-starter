@@ -21,13 +21,9 @@ import org.cricketmsf.HttpAdapterHook;
 import org.cricketmsf.Kernel;
 import org.cricketmsf.RequestObject;
 import java.util.HashMap;
-import java.util.Map;
 import org.cricketmsf.in.http.EchoHttpAdapterIface;
-import org.cricketmsf.in.http.FileResult;
 import org.cricketmsf.in.http.HtmlGenAdapterIface;
 import org.cricketmsf.in.http.HttpAdapter;
-import org.cricketmsf.in.http.ParameterMapResult;
-import org.cricketmsf.in.http.Result;
 import org.cricketmsf.in.http.StandardResult;
 import org.cricketmsf.in.scheduler.SchedulerIface;
 import org.cricketmsf.out.db.H2EmbededIface;
@@ -81,8 +77,13 @@ public class BasicService extends Kernel {
         return sendEcho((RequestObject) requestEvent.getPayload());
     }
 
-    @EventHook(eventCategory = "LOG")
+    @EventHook(eventCategory = Event.CATEGORY_LOG)
     public void logEvent(Event event) {
+        logAdapter.log(event);
+    }
+    
+    @EventHook(eventCategory = Event.CATEGORY_HTTP_LOG)
+    public void logHttpEvent(Event event) {
         logAdapter.log(event);
     }
 
