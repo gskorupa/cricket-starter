@@ -1,1 +1,1 @@
-folder for database (xml) files
+folder for local database files

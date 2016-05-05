@@ -55,6 +55,7 @@
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}"/>
         <antcall inheritall="true" target="jar"/>
+        <copy todir="${dist}" file="${src}/cricket.json"/>
     </target>
 
     <target name="clean" description="clean up">
