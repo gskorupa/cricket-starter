@@ -1,0 +1,4 @@
+FINE:2016-05-08 21:32:36: 1462743138447:null:sending request to hook method doGetEcho
+INFO:2016-05-08 21:32:36: 1462743138449:null:172.17.0.1 - - [08/May/2016:21:32:36 +0000] GET HTTP/1.1 /echo 200 227
+FINE:2016-05-08 21:32:47: 1462743138450:null:sending request to hook method doGetEcho
+INFO:2016-05-08 21:32:47: 1462743138452:null:172.17.0.1 - - [08/May/2016:21:32:47 +0000] GET HTTP/1.1 /echo 200 227
