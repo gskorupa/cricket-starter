@@ -24,6 +24,7 @@ import java.util.HashMap;
 import org.cricketmsf.in.http.EchoHttpAdapterIface;
 import org.cricketmsf.in.http.HtmlGenAdapterIface;
 import org.cricketmsf.in.http.HttpAdapter;
+import org.cricketmsf.in.http.HttpAdapterIface;
 import org.cricketmsf.in.http.StandardResult;
 import org.cricketmsf.in.scheduler.SchedulerIface;
 import org.cricketmsf.out.db.H2EmbededIface;
@@ -39,6 +40,7 @@ import org.cricketmsf.out.log.LoggerAdapterIface;
 public class BasicService extends Kernel {
 
     // adapterClasses
+    HttpAdapterIface greeterAdapter = null;
     LoggerAdapterIface logAdapter = null;
     EchoHttpAdapterIface httpAdapter = null;
     KeyValueCacheAdapterIface cache = null;
@@ -49,6 +51,7 @@ public class BasicService extends Kernel {
 
     @Override
     public void getAdapters() {
+        greeterAdapter = (HttpAdapterIface) getRegistered("greeter");
         logAdapter = (LoggerAdapterIface) getRegistered("LoggerAdapterIface");
         httpAdapter = (EchoHttpAdapterIface) getRegistered("EchoHttpAdapterIface");
         cache = (KeyValueCacheAdapterIface) getRegistered("KeyValueCacheAdapterIface");
@@ -64,6 +67,17 @@ public class BasicService extends Kernel {
         handle(Event.logInfo("BasicService.runOnce()", "executed"));
         System.out.println("Hello from BasicService.runOnce()");
         System.out.println(embededDatabase.getVersion());
+    }
+    
+    @HttpAdapterHook(adapterName = "greeter", requestMethod = "GET")
+    public Object sendGreeting(Event event) {
+        StandardResult r = new StandardResult();
+        r.setCode(HttpAdapter.SC_OK);
+        Greeting greetings = new Greeting();
+        greetings.message = "Hello ";
+        greetings.name = event.getRequestParameter("name");
+        r.setData(greetings);
+        return r;
     }
 
     @HttpAdapterHook(adapterName = "HtmlGenAdapterIface", requestMethod = "GET")

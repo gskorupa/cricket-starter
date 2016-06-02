@@ -11,6 +11,15 @@
             "threads": 0,
             "filter": "org.cricketmsf.SecurityFilter",
             "adapters": {
+                "greeter": {
+                    "name": "greeter",
+                    "interfaceName": "HttpAdapterIface",
+                    "classFullName": "org.cricketmsf.in.http.SimpleHttpAdapter",
+                    "properties": {
+                        "context": "/greeter",
+                        "extended-response": "false"
+                    }
+                },
                 "EchoHttpAdapterIface": {
                     "name": "EchoHttpAdapterIface",
                     "interfaceName": "EchoHttpAdapterIface",
