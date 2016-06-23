@@ -51,7 +51,7 @@ public class BasicService extends Kernel {
 
     @Override
     public void getAdapters() {
-        greeterAdapter = (HttpAdapterIface) getRegistered("greeter");
+        // standard Cricket adapters
         logAdapter = (LoggerAdapterIface) getRegistered("LoggerAdapterIface");
         httpAdapter = (EchoHttpAdapterIface) getRegistered("EchoHttpAdapterIface");
         cache = (KeyValueCacheAdapterIface) getRegistered("KeyValueCacheAdapterIface");
@@ -59,6 +59,9 @@ public class BasicService extends Kernel {
         htmlAdapter = (HtmlGenAdapterIface) getRegistered("HtmlGenAdapterIface");
         htmlReaderAdapter = (HtmlReaderAdapterIface) getRegistered("HtmlReaderAdapterIface");
         embededDatabase = (H2EmbededIface) getRegistered("H2EmbededIface");
+        
+        // adapters specific to this service goes here
+        greeterAdapter = (HttpAdapterIface) getRegistered("greeter");
     }
 
     @Override
@@ -69,15 +72,22 @@ public class BasicService extends Kernel {
         System.out.println(embededDatabase.getVersion());
     }
     
+    /**
+     * Handles HTTP request received by the greeter inbound adapter. The context path and other parameters of this
+     * adapter should be configured in cricket.json file.
+     * @param event encapsulates HTTP request object
+     * @return result object (implementing Result interface)
+     */
     @HttpAdapterHook(adapterName = "greeter", requestMethod = "GET")
-    public Object sendGreeting(Event event) {
-        StandardResult r = new StandardResult();
-        r.setCode(HttpAdapter.SC_OK);
-        Greeting greetings = new Greeting();
+    public Object getGreeting(Event event) {
+        StandardResult result = new StandardResult();
+        result.setCode(HttpAdapter.SC_OK);
+        GreetingVO greetings = new GreetingVO();
         greetings.message = "Hello ";
         greetings.name = event.getRequestParameter("name");
-        r.setData(greetings);
-        return r;
+        result.setData(greetings);
+        handle(Event.logInfo("BasicService.getGreeting()", greetings.message+greetings.name));
+        return result;
     }
 
     @HttpAdapterHook(adapterName = "HtmlGenAdapterIface", requestMethod = "GET")

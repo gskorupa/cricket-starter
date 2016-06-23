@@ -1,0 +1,45 @@
+FINE:2016-06-24 00:01:07: 1466719220418:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:01:07: 1466719220420:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:01:07: 1466719220421:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:01:07 +0200] GET HTTP/1.1 /greeting?name=Greg 200 42
+FINE:2016-06-24 00:01:30: 1466719220422:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:01:30: 1466719220424:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:01:30: 1466719220425:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:01:30 +0200] GET HTTP/1.1 /greeting?name=Greg 200 23
+FINE:2016-06-24 00:02:13: 1466719220426:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:02:13: 1466719220428:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:02:13: 1466719220429:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:02:13 +0200] GET HTTP/1.1 /greeting?name=Greg 200 133
+FINE:2016-06-24 00:02:40: 1466719220430:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:02:40: 1466719220432:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:02:40: 1466719220433:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:02:40 +0200] GET HTTP/1.1 /greeting?name=Greg 200 11
+FINE:2016-06-24 00:03:02: 1466719220434:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:03:02: 1466719220436:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:03:02: 1466719220437:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:03:02 +0200] GET HTTP/1.1 /greeting?name=Greg 200 42
+FINE:2016-06-24 00:03:12: 1466719220438:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:03:12: 1466719220440:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:03:12: 1466719220441:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:03:12 +0200] GET HTTP/1.1 /greeting?name=Greg 200 23
+FINE:2016-06-24 00:05:33: 1466719220442:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:05:33: 1466719220444:BasicService.getGreeting():Hello x
+INFO:2016-06-24 00:05:33: 1466719220445:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:05:33 +0200] GET HTTP/1.1 /greeting?name=x 200 23
+FINE:2016-06-24 00:06:56: 1466719220446:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:06:56: 1466719220448:BasicService.getGreeting():Hello x
+INFO:2016-06-24 00:06:56: 1466719220449:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:06:56 +0200] GET HTTP/1.1 /greeting?name=x 200 39
+FINE:2016-06-24 00:07:10: 1466719220450:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:07:10: 1466719220452:BasicService.getGreeting():Hello x
+INFO:2016-06-24 00:07:10: 1466719220453:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:07:10 +0200] GET HTTP/1.1 /greeting?name=x 200 23
+FINE:2016-06-24 00:09:02: 1466719220454:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:09:02: 1466719220456:BasicService.getGreeting():Hello x
+INFO:2016-06-24 00:09:02: 1466719220457:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:09:02 +0200] GET HTTP/1.1 /greeting?name=x 200 39
+FINE:2016-06-24 00:09:13: 1466719220458:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:09:13: 1466719220460:BasicService.getGreeting():Hello x
+INFO:2016-06-24 00:09:13: 1466719220461:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:09:13 +0200] GET HTTP/1.1 /greeting?name=x 200 130
+FINE:2016-06-24 00:09:32: 1466719220462:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:09:32: 1466719220464:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:09:32: 1466719220465:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:09:32 +0200] GET HTTP/1.1 /greeting?name=Greg 200 133
+FINE:2016-06-24 00:09:45: 1466719220466:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:09:45: 1466719220468:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:09:45: 1466719220469:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:09:45 +0200] GET HTTP/1.1 /greeting?name=Greg 200 42
+FINE:2016-06-24 00:09:53: 1466719220470:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:09:53: 1466719220472:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:09:53: 1466719220473:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:09:53 +0200] GET HTTP/1.1 /greeting?name=Greg 200 133
+FINE:2016-06-24 00:10:02: 1466719220474:HttpAdapter:sending request to hook method getGreeting
+INFO:2016-06-24 00:10:02: 1466719220476:BasicService.getGreeting():Hello Greg
+INFO:2016-06-24 00:10:02: 1466719220477:HttpAdapter:127.0.0.1 - - [24/Jun/2016:24:10:02 +0200] GET HTTP/1.1 /greeting?name=Greg 200 11

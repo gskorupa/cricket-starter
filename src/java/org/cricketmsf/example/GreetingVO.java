@@ -15,22 +15,31 @@
  */
 package org.cricketmsf.example;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
- *
+ * Greeting value object used by the Greeting service example
  * @author greg
  */
-public class Greeting {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "greetings")
+public class GreetingVO {
     
     String message;
     String name;
     
-    public Greeting(){
+    /**
+     * Default constructor
+     */
+    public GreetingVO(){
         message = "hello";
         name = "";
     }
     
     public String toString(){
-        return message+name;
+        return message+" "+name;
     }
     
 }

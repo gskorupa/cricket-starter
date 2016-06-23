@@ -16,7 +16,7 @@
                     "interfaceName": "HttpAdapterIface",
                     "classFullName": "org.cricketmsf.in.http.SimpleHttpAdapter",
                     "properties": {
-                        "context": "/greeter",
+                        "context": "/greeting",
                         "extended-response": "false"
                     }
                 },
