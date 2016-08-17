@@ -112,7 +112,7 @@
                     "properties": {
                         "name": "EchoService",
                         "level": "ALL",
-                        "log-file-name": "./dockerdata/cricket.log"
+                        "log-file-name": "./data/cricket.log"
                     }
                 },
                 "KeyValueCacheAdapterIface": {
@@ -120,7 +120,7 @@
                     "interfaceName": "KeyValueCacheAdapterIface",
                     "classFullName": "org.cricketmsf.out.db.KeyValueStore",
                     "properties": {
-                        "path": "./dockerdata",
+                        "path": "./data",
                         "envVariable": "ECHO_DB_PATH",
                         "file": "echo.xml",
                         "max-records": "100",
@@ -132,7 +132,7 @@
                     "interfaceName": "SchedulerIface",
                     "classFullName": "org.cricketmsf.in.scheduler.Scheduler",
                     "properties": {
-                        "path": "./dockerdata",
+                        "path": "./data",
                         "envVariable": "SCHEDULER_DB_PATH",
                         "file": "scheduler.xml"
                     }
@@ -158,7 +158,7 @@
                     "interfaceName": "H2EmbededIface",
                     "classFullName": "org.cricketmsf.out.db.H2Embeded",
                     "properties": {
-                        "path": "./dockerdata",
+                        "path": "./data",
                         "file": "servicedb",
                         "test-query": "select * from serviceversion;"
                     }
