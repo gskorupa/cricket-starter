@@ -29,7 +29,7 @@ import org.cricketmsf.in.http.StandardResult;
 import org.cricketmsf.in.scheduler.SchedulerIface;
 import org.cricketmsf.out.db.H2EmbededIface;
 import org.cricketmsf.out.db.KeyValueCacheAdapterIface;
-import org.cricketmsf.out.html.HtmlReaderAdapterIface;
+import org.cricketmsf.out.file.FileReaderAdapterIface;
 import org.cricketmsf.out.log.LoggerAdapterIface;
 
 /**
@@ -46,7 +46,7 @@ public class BasicService extends Kernel {
     KeyValueCacheAdapterIface cache = null;
     SchedulerIface scheduler = null;
     HtmlGenAdapterIface htmlAdapter = null;
-    HtmlReaderAdapterIface htmlReaderAdapter = null;
+    FileReaderAdapterIface fileReaderAdapter = null;
     H2EmbededIface embededDatabase = null;
 
     @Override
@@ -57,7 +57,7 @@ public class BasicService extends Kernel {
         cache = (KeyValueCacheAdapterIface) getRegistered("KeyValueCacheAdapterIface");
         scheduler = (SchedulerIface) getRegistered("SchedulerIface");
         htmlAdapter = (HtmlGenAdapterIface) getRegistered("HtmlGenAdapterIface");
-        htmlReaderAdapter = (HtmlReaderAdapterIface) getRegistered("HtmlReaderAdapterIface");
+        fileReaderAdapter = (FileReaderAdapterIface) getRegistered("FileReaderAdapterIface");
         embededDatabase = (H2EmbededIface) getRegistered("H2EmbededIface");
         
         // adapters specific to this service goes here
@@ -93,7 +93,7 @@ public class BasicService extends Kernel {
     @HttpAdapterHook(adapterName = "HtmlGenAdapterIface", requestMethod = "GET")
     public Object doGet(Event event) {
         RequestObject request = (RequestObject) event.getPayload();
-        return htmlReaderAdapter.getFile(request);
+        return fileReaderAdapter.getFile(request);
     }
 
     @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "*")

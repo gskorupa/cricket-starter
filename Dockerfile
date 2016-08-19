@@ -6,6 +6,7 @@ COPY www/* /usr/cricket/www/
 WORKDIR /usr/cricket
 RUN mkdir /usr/cricket/data
 VOLUME /usr/cricket/data
+VOLUME /usr/cricket/www
 # remember to declare appropriate name-version of the jar
 # remember to declare appropriate name of the service to run (-s option parameter)
 CMD ["java", "-jar", "./basicservice-core-1.0.0.jar", "-r", "-c", "./cricket.json", "-s", "dockerized"]
