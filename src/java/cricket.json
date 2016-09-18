@@ -20,12 +20,31 @@
                         "extended-response": "false"
                     }
                 },
+                "ScriptingService": {
+                    "name": "ScriptingService",
+                    "interfaceName": "HttpAdapterIface",
+                    "classFullName": "org.cricketmsf.in.http.ScriptingAdapter",
+                    "properties": {
+                        "context": "/script",
+                        "response-type": "JSON",
+                        "silent-mode": "false"
+                    }
+                },
+                "ScriptingEngine": {
+                    "name": "ScriptingEngine",
+                    "interfaceName": "ScriptingAdapterIface",
+                    "classFullName": "org.cricketmsf.out.script.NashornScriptingAdapter",
+                    "properties": {
+                        "script-file": "./script.js"
+                    }
+                },
                 "EchoHttpAdapterIface": {
                     "name": "EchoHttpAdapterIface",
                     "interfaceName": "EchoHttpAdapterIface",
                     "classFullName": "org.cricketmsf.in.http.EchoHttpAdapter",
                     "properties": {
-                        "context": "/echo"
+                        "context": "/echo",
+                        "silent-mode": "false"
                     }
                 },
                 "LoggerAdapterIface": {
@@ -35,19 +54,32 @@
                     "properties": {
                         "name": "EchoService",
                         "level": "ALL",
-                        "log-file-name": "./data/cricket.log"
+                        "log-file-name": "./data/cricket.log",
+                        "console": "true"
                     }
                 },
-                "KeyValueCacheAdapterIface": {
-                    "name": "KeyValueCacheAdapterIface",
+                "nosql": {
+                    "name": "nosql",
                     "interfaceName": "KeyValueCacheAdapterIface",
                     "classFullName": "org.cricketmsf.out.db.KeyValueStore",
                     "properties": {
                         "path": "./data",
                         "envVariable": "ECHO_DB_PATH",
-                        "file": "echo.xml",
+                        "file": "nosql.xml",
                         "max-records": "100",
                         "persistent": "true"
+                    }
+                },
+                "webCache": {
+                    "name": "webCache",
+                    "interfaceName": "KeyValueCacheAdapterIface",
+                    "classFullName": "org.cricketmsf.out.db.KeyValueStore",
+                    "properties": {
+                        "path": "./data",
+                        "envVariable": "ECHO_DB_PATH",
+                        "file": "webcache.xml",
+                        "max-records": "100",
+                        "persistent": "false"
                     }
                 },
                 "SchedulerIface": {
@@ -73,7 +105,8 @@
                     "interfaceName": "HtmlGenAdapterIface",
                     "classFullName": "org.cricketmsf.in.http.HtmlGenAdapter",
                     "properties": {
-                        "context": "/"
+                        "context": "/",
+                        "use-cache": "true"
                     }
                 },
                 "H2EmbededIface": {
@@ -84,6 +117,23 @@
                         "path": "./data",
                         "file": "servicedb",
                         "test-query": "select * from serviceversion;"
+                    }
+                },
+                "watchdog": {
+                    "name": "watchdog",
+                    "interfaceName": "WatchdogIface",
+                    "classFullName": "org.cricketmsf.in.file.Watchdog",
+                    "properties": {
+                        "path": "./www",
+                        "sampling-interval": "1000"
+                    }
+                },
+                "CLI": {
+                    "name": "CLI",
+                    "interfaceName": "CliIface",
+                    "classFullName": "org.cricketmsf.in.cli.Cli",
+                    "properties": {
+                        "sampling-interval": "100"
                     }
                 }
             }
@@ -103,6 +153,24 @@
                     "classFullName": "org.cricketmsf.in.http.EchoHttpAdapter",
                     "properties": {
                         "context": "/echo"
+                    }
+                },
+                "ScriptingService": {
+                    "name": "ScriptingService",
+                    "interfaceName": "HttpAdapterIface",
+                    "classFullName": "org.cricketmsf.in.http.ScriptingAdapter",
+                    "properties": {
+                        "context": "/script",
+                        "response-type": "JSON",
+                        "silent-mode": "false"
+                    }
+                },
+                "ScriptingEngine": {
+                    "name": "ScriptingEngine",
+                    "interfaceName": "ScriptingAdapterIface",
+                    "classFullName": "org.cricketmsf.out.script.NashornScriptingAdapter",
+                    "properties": {
+                        "script-file": "./config/script.js"
                     }
                 },
                 "LoggerAdapterIface": {

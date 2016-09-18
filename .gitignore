@@ -9,3 +9,6 @@
 /dockerdata/cricket.log
 /dockerdata/scheduler.xml
 /dockerdata/echo.xml
+/data/echo.xml
+/data/nosql.xml
+/data/scheduler.xml

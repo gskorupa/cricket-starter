@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="basicservice" default="all" basedir="." 
+<project name="cricketms" default="all" basedir="." 
          xmlns:if="ant:if"
          xmlns:unless="ant:unless">
     <!-- you can modify the project name above -->
-    <description>Cricket service template project. </description>
+    <description>Cricket microservice template project.</description>
         
     <!-- set your local properties for this build -->
     <property name="version" value="1.0.0"/> <!-- service version -->
@@ -96,6 +96,13 @@
             <arg value="."/>
         </exec>
     </target>
+    
+    <target name="docker-push" description="push current image to the repository">
+        <exec executable="docker">
+            <arg value="push"/>
+            <arg value="${docker-repository}/${ant.project.name}:${version}"/>
+        </exec>
+    </target>
 
     <target name="docker-run" depends="jar" description="create and run the new container">
         <exec executable="docker">
@@ -104,7 +111,7 @@
             <arg value="-p"/>
             <arg value="127.0.0.1:8080:8080"/>
             <arg value="-v"/>
-            <arg value="${basedir}/dockerdata:/usr/cricket/data"/>
+            <arg value="${basedir}/data:/usr/cricket/data"/>
             <arg value="--name"/>
             <arg value="${ant.project.name}"/>
             <arg value="${docker-repository}/${ant.project.name}:${version}"/>
