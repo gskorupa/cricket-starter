@@ -18,6 +18,8 @@ package org.cricketmsf.in.file;
 import java.io.File;
 import java.util.HashMap;
 import org.cricketmsf.Adapter;
+import org.cricketmsf.Event;
+import org.cricketmsf.Kernel;
 import org.cricketmsf.in.InboundAdapter;
 
 /**
@@ -70,7 +72,7 @@ public class Watchdog extends InboundAdapter implements Adapter, WatchdogIface {
                 Thread.yield();
             }
         } catch (InterruptedException e) {
-            System.out.println("Watchdog interrupted");
+            Kernel.handle(Event.logWarning(this.getClass().getSimpleName(), "interrupted"));
         }
     }
 
