@@ -128,7 +128,8 @@
                         "sampling-interval": "1000"
                     }
                 },
-                "CLI": {
+                "<!--CLI-->": {
+                    "comment": "adapter can be deactivater by changing it's ID - we can use html comment approach",
                     "name": "CLI",
                     "interfaceName": "CliIface",
                     "classFullName": "org.cricketmsf.in.cli.Cli",

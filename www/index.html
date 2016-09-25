@@ -3,32 +3,10 @@
     <head>
         <title>Cricket MSF sample page</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="cricket_icon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
-        <style>
-            body {
-                font-family: Tahoma, Geneva, sans-serif;
-                background-color: #ccffcc;
-            }
-            table {
-                border-collapse: collapse;
-            }
-            table, th, td {
-                border: 1px solid black;
-                width: 100%;
-            }
-            th, td {
-                padding: 5px;
-                text-align: left;
-            }
-            th {
-                background-color: yellowgreen;
-            }
-            footer {
-                margin-top: 10px;
-                font-size: 75%;
-            }
-        </style>
         <script>
             $(document).ready(function () {
                 sendRequest();
@@ -59,20 +37,31 @@
         </script>
     </head>
     <body>
-        <div>
-            <h1>Echo service</h1>
-            <h5>Web GUI example</h5>
-        </div>
-        <div>
-            <table>
-                <tr><th>Paremeter name</th><th>Value</th></tr>
-                <tr><td>data.name:</td><td id="name"></td></tr>
-                <tr><td>data.surname:</td><td id="surname"></td></tr>
-                <tr><td>response code:</td><td id="code"></td></tr>
-            </table>
-        </div>
-        <div>
-            <footer>Built with <a href="https://github.com/gskorupa/cricket-starter">Cricket Microservices Framework</a></footer>
-        </div>
+        <header class="w3-container w3-blue">
+            <h1>Web GUI example</h1>
+            <p>Using echo adapter as the back-end</p>
+        </header>
+
+        <table class="w3-table w3-striped w3-bordered w3-border">
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>data.name</td>
+                <td id="name">data</td>
+            </tr>
+            <tr>
+                <td>data.surname</td>
+                <td id="surname">data</td>
+            </tr>
+            <tr>
+                <td>response code</td>
+                <td id="code">data</td>
+            </tr>
+        </table>
+        <footer class="w3-container w3-light-blue">
+            <p>Built with <a href="http://www.cricketmsf.org">Cricket Microservices Framework</a></p>
+        </footer>
     </body>
 </html>

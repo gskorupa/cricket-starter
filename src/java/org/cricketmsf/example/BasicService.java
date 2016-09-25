@@ -89,7 +89,10 @@ public class BasicService extends Kernel {
     
     @Override
     public void runFinalTasks() {
-        cli.start();
+        // CLI adapter doesn't start automaticaly as other inbound adapters
+        if(cli!=null) {
+            cli.start();
+        }
     }
 
     @Override

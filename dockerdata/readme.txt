@@ -1,1 +1,0 @@
-This folder holds the service files (logs, data etc)

@@ -19,7 +19,7 @@
         
     <!-- do not modify properties below -->
     <property name="src" location="src/java"/>
-    <property name="build" location="build/web/WEB-INF/classes"/>
+    <property name="build" location="build/classes"/>
     <property name="dist" location="dist"/>
     <property name="web" location="web"/>
     <property name="lib" location="lib"/>
