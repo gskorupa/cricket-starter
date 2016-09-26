@@ -18,12 +18,12 @@ package org.cricketmsf.example;
 import java.io.File;
 import java.util.Date;
 import org.cricketmsf.Event;
-import org.cricketmsf.EventHook;
-import org.cricketmsf.HttpAdapterHook;
 import org.cricketmsf.Kernel;
 import org.cricketmsf.RequestObject;
 import java.util.HashMap;
-import org.cricketmsf.InboundAdapterHook;
+import org.cricketmsf.annotation.EventHook;
+import org.cricketmsf.annotation.HttpAdapterHook;
+import org.cricketmsf.annotation.InboundAdapterHook;
 import org.cricketmsf.in.cli.CliIface;
 import org.cricketmsf.in.file.WatchdogIface;
 import org.cricketmsf.in.http.EchoHttpAdapterIface;
@@ -104,7 +104,7 @@ public class BasicService extends Kernel {
     
     @HttpAdapterHook(adapterName = "ScriptingService", requestMethod = "*")
     public Object doGetScript(Event requestEvent) {
-        StandardResult r=  scriptingEngine.processRequest((RequestObject)requestEvent.getPayload());
+        StandardResult r=  scriptingEngine.processRequest(requestEvent.getRequest());
         r.setCode(HttpAdapter.SC_OK);
         return r;
     }
@@ -137,7 +137,7 @@ public class BasicService extends Kernel {
     @HttpAdapterHook(adapterName = "HtmlGenAdapterIface", requestMethod = "GET")
     public Object doGet(Event event) {
         boolean useCache = htmlAdapter.useCache();
-        RequestObject request = (RequestObject) event.getPayload();
+        RequestObject request = event.getRequest();
         String filePath = fileReader.getFilePath(request);
 
         ParameterMapResult result = new ParameterMapResult();
@@ -191,7 +191,7 @@ public class BasicService extends Kernel {
     
     @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "*")
     public Object doGetEcho(Event requestEvent) {
-        return sendEcho((RequestObject) requestEvent.getPayload());
+        return sendEcho(requestEvent.getRequest());
     }
 
     @EventHook(eventCategory = Event.CATEGORY_LOG)
@@ -222,7 +222,7 @@ public class BasicService extends Kernel {
             counter = (Long) nosql.get("counter", new Long(0));
             counter++;
             nosql.put("counter", counter);
-            HashMap<String, Object> data = new HashMap<String, Object>(request.parameters);
+            HashMap<String, Object> data = new HashMap<>(request.parameters);
             data.put("service.uuid", getUuid().toString());
             data.put("request.method", request.method);
             data.put("request.pathExt", request.pathExt);
