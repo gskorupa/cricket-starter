@@ -32,7 +32,6 @@ import org.cricketmsf.Event;
 import org.cricketmsf.Kernel;
 import org.cricketmsf.RequestObject;
 import org.cricketmsf.in.http.HttpAdapter;
-import org.cricketmsf.in.http.ParameterMapResult;
 import org.cricketmsf.in.http.StandardResult;
 
 /**
@@ -91,7 +90,6 @@ public class NashornScriptingAdapter extends OutboundAdapter implements Adapter,
             input = new BufferedInputStream(new FileInputStream(file));
             while (totalBytesRead < result.length) {
                 int bytesRemaining = result.length - totalBytesRead;
-                //input.read() returns -1, 0, or more :
                 int bytesRead = input.read(result, totalBytesRead, bytesRemaining);
                 if (bytesRead > 0) {
                     totalBytesRead = totalBytesRead + bytesRead;
@@ -120,23 +118,15 @@ public class NashornScriptingAdapter extends OutboundAdapter implements Adapter,
     @Override
     public StandardResult processRequest(RequestObject request) {
         StandardResult result = new StandardResult();
-        //result.setData(new HashMap(request.parameters));
-
         Kernel.getInstance().handleEvent(Event.logFinest("NashornScriptAdapter", "evaluating"));
-        
         String scriptResult = "";
         try {
             if (script != null && invocable!=null) {
-                Object objectResult = invocable.invokeFunction("processRequest", request.method, request.pathExt);
-                //System.out.println("result="+objectResult);
-                //System.out.println(objectResult.getClass().getName());
-                scriptResult = objectResult.toString();
+                result = (StandardResult)invocable.invokeFunction("processRequest", request);
             } else {
                 result.setCode(HttpAdapter.SC_NOT_IMPLEMENTED);
             }
-            result.setPayload(scriptResult.getBytes());
             result.setFileExtension(null);
-            result.setCode(HttpAdapter.SC_OK);
             result.setModificationDate(new Date());
             result.setMessage("");
         } catch (Exception e) {

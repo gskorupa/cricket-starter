@@ -105,7 +105,6 @@ public class BasicService extends Kernel {
     @HttpAdapterHook(adapterName = "ScriptingService", requestMethod = "*")
     public Object doGetScript(Event requestEvent) {
         StandardResult r=  scriptingEngine.processRequest(requestEvent.getRequest());
-        r.setCode(HttpAdapter.SC_OK);
         return r;
     }
     
