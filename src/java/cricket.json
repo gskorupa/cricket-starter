@@ -36,7 +36,7 @@
                     "interfaceName": "ScriptingAdapterIface",
                     "classFullName": "org.cricketmsf.out.script.NashornScriptingAdapter",
                     "properties": {
-                        "script-file": "./script.js"
+                        "script-file": "./config/script.js"
                     }
                 },
                 "EchoHttpAdapterIface": {

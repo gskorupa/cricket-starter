@@ -7,7 +7,7 @@
         
     <!-- set your local properties for this build -->
     <property name="version" value="1.0.0"/> <!-- service version -->
-    <property name="cricket-jar-location" value="lib/cricket-1.0.0.jar" />
+    <property name="cricket-jar-location" value="lib/cricket.jar" />
     <property name="docker-repository" value="gskorupa" />
 
     <!-- uncomment if you need Tomcat libraries to compile the project -->
@@ -57,7 +57,16 @@
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}"/>
         <antcall inheritall="true" target="jar"/>
-        <copy todir="${dist}" file="${src}/cricket.json"/>
+        <mkdir dir="${dist}/config"/>
+        <mkdir dir="${dist}/data"/>
+        <mkdir dir="${dist}/www"/>
+        <copy todir="${dist}/config" file="script.js"/>
+        <copy todir="${dist}/config" file="${src}/cricket.json"/>
+        <copy todir="${dist}/data" file="data/readme.txt"/>
+        <copy todir="${dist}/www">
+            <fileset dir="www"/>
+        </copy>
+        <zip basedir="dist" destfile="cricketms.zip"/>
     </target>
 
     <target name="clean" description="clean up">

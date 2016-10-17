@@ -10,3 +10,6 @@
 /data/nosql.xml
 /data/scheduler.xml
 /data/cricket.log.lck
+/cricketms.zip
+/data/servicedb.h2.db
+/data/servicedb.trace.db
