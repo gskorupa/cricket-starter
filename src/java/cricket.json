@@ -15,7 +15,7 @@
                 "greeter": {
                     "name": "greeter",
                     "interfaceName": "HttpAdapterIface",
-                    "classFullName": "org.cricketmsf.in.http.SimpleHttpAdapter",
+                    "classFullName": "org.cricketmsf.in.http.StandardHttpAdapter",
                     "properties": {
                         "context": "/greeting",
                         "extended-response": "false"
@@ -26,7 +26,7 @@
                     "interfaceName": "HttpAdapterIface",
                     "classFullName": "org.cricketmsf.in.http.ScriptingAdapter",
                     "properties": {
-                        "context": "/script",
+                        "context": "/api/todos",
                         "response-type": "JSON",
                         "silent-mode": "false"
                     }

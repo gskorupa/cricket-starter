@@ -60,7 +60,7 @@
         <mkdir dir="${dist}/config"/>
         <mkdir dir="${dist}/data"/>
         <mkdir dir="${dist}/www"/>
-        <copy todir="${dist}/config" file="script.js"/>
+        <copy todir="${dist}/config" file="config/script.js"/>
         <copy todir="${dist}/config" file="${src}/cricket.json"/>
         <copy todir="${dist}/data" file="data/readme.txt"/>
         <copy todir="${dist}/www">

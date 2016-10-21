@@ -58,7 +58,7 @@ public class NashornScriptingAdapter extends OutboundAdapter implements Adapter,
     public void loadProperties(HashMap<String, String> properties, String adapterName) {
         scriptLocation = properties.get("script-file");
         System.out.println("script location: " + scriptLocation);
-        script = readScript(scriptLocation);      
+        script = readScript(scriptLocation);
         if (script != null) {
             manager = new ScriptEngineManager();
             engine = manager.getEngineByName("nashorn");
@@ -67,7 +67,7 @@ public class NashornScriptingAdapter extends OutboundAdapter implements Adapter,
                 invocable = (Invocable) engine;
                 System.out.println("script OK");
             } catch (ScriptException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } else {
             System.out.println("script not found");
@@ -102,7 +102,7 @@ public class NashornScriptingAdapter extends OutboundAdapter implements Adapter,
              */
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("ERROR: " + e.getClass().getName() + " " + e.getMessage());
             return null;
         } finally {
             if (input != null) {
@@ -121,8 +121,8 @@ public class NashornScriptingAdapter extends OutboundAdapter implements Adapter,
         Kernel.getInstance().handleEvent(Event.logFinest("NashornScriptAdapter", "evaluating"));
         String scriptResult = "";
         try {
-            if (script != null && invocable!=null) {
-                result = (StandardResult)invocable.invokeFunction("processRequest", request);
+            if (script != null && invocable != null) {
+                result = (StandardResult) invocable.invokeFunction("processRequest", request);
             } else {
                 result.setCode(HttpAdapter.SC_NOT_IMPLEMENTED);
             }

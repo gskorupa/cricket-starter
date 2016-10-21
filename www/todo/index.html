@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+/*
+ * Copyright 2016 Grzegorz Skorupa <g.skorupa at gmail.com>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<html>
+    <head>
+        <title>TODO SPA example</title>
+        <meta charset="UTF-8">
+        <link rel="icon" type="image/png" sizes="50x51" href="/cricket_icon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+        <script src="http://www.w3schools.com/lib/w3data.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+        <header class="w3-container w3-blue">
+            <h1>My TODO list</h1>
+        </header>
+        <div class="w3-container">
+            <h3 id="netStatus">Active tasks</h3>
+        </div>
+        <div class="w3-container">
+            <table id="todolist" class="w3-table">
+                <tr w3-repeat="todos">
+                    <td>{{name}}</td><td>{{description}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="w3-container">
+            <h3>Add new task</h3>
+        </div>
+        <form class="w3-container" method="POST" 
+              onsubmit="AJAXSubmit(this, 'todolist', 'status', getData); return false;">
+            <label>Task name</label>
+            <input class="w3-input w3-border" name="name" type="text">
+            <label>Description</label>
+            <input class="w3-input w3-border" name="description" type="text">
+            <p></p>
+            <button class="w3-btn w3-blue">Save</button>
+        </form>
+        <div class="w3-container">
+            <p></p>
+        </div>
+        <footer class="w3-container w3-light-blue">
+            <p id="status">offline</p>
+        </footer>
+        <script>
+            getData("todolist","status");
+        </script>
+    </body>
+</html>

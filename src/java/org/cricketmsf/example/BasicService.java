@@ -82,15 +82,15 @@ public class BasicService extends Kernel {
         // adapters specific to this service goes here
         greeterAdapter = (HttpAdapterIface) getRegistered("greeter");
     }
-    
+
     @Override
     public void runInitTasks() {
     }
-    
+
     @Override
     public void runFinalTasks() {
         // CLI adapter doesn't start automaticaly as other inbound adapters
-        if(cli!=null) {
+        if (cli != null) {
             cli.start();
         }
     }
@@ -99,18 +99,20 @@ public class BasicService extends Kernel {
     public void runOnce() {
         super.runOnce();
         handleEvent(Event.logInfo("BasicService.runOnce()", "executed"));
-        handleEvent(Event.logInfo("BasicService.runOnce()", "database version "+embededDatabase.getVersion()));
+        handleEvent(Event.logInfo("BasicService.runOnce()", "database version " + embededDatabase.getVersion()));
     }
-    
+
     @HttpAdapterHook(adapterName = "ScriptingService", requestMethod = "*")
     public Object doGetScript(Event requestEvent) {
-        StandardResult r=  scriptingEngine.processRequest(requestEvent.getRequest());
+        StandardResult r = scriptingEngine.processRequest(requestEvent.getRequest());
         return r;
     }
-    
+
     /**
-     * Handles HTTP request received by the greeter inbound adapter. The context path and other parameters of this
-     * adapter should be configured in cricket.json file.
+     * Handles HTTP request received by the greeter inbound adapter. The context
+     * path and other parameters of this adapter should be configured in
+     * cricket.json file.
+     *
      * @param event encapsulates HTTP request object
      * @return result object (implementing Result interface)
      */
@@ -122,7 +124,7 @@ public class BasicService extends Kernel {
         greetings.message = "Hello ";
         greetings.name = event.getRequestParameter("name");
         result.setData(greetings);
-        handle(Event.logInfo("BasicService.getGreeting()", greetings.message+greetings.name));
+        handle(Event.logInfo("BasicService.getGreeting()", greetings.message + greetings.name));
         return result;
     }
 
@@ -135,59 +137,66 @@ public class BasicService extends Kernel {
      */
     @HttpAdapterHook(adapterName = "HtmlGenAdapterIface", requestMethod = "GET")
     public Object doGet(Event event) {
-        boolean useCache = htmlAdapter.useCache();
+
         RequestObject request = event.getRequest();
         String filePath = fileReader.getFilePath(request);
-
+        byte[] content;
         ParameterMapResult result = new ParameterMapResult();
-        result.setData(request.parameters);
 
         // we can use cache if available
         FileObject fo = null;
-        if (useCache) {
+        boolean fileReady = false;
+        if (htmlAdapter.useCache()) {
             try {
                 fo = (FileObject) webCache.get(filePath);
-            } catch (ClassCastException e) {
-                fo = null;
-            }
-        }
-        if (fo == null) {
-            File file = new File(filePath);
-            byte[] content = fileReader.getFileBytes(file, filePath);
-            if (content.length > 0) {
-                fo = new FileObject();
-                fo.content = content;
-                fo.modified = new Date(file.lastModified());
-                fo.filePath = filePath;
-                fo.fileExtension = fileReader.getFileExt(filePath);
-                if(useCache) {
-                    webCache.put(filePath, fo);
+                if (fo != null) {
+                    fileReady = true;
+                    result.setCode(HttpAdapter.SC_OK);
+                    result.setMessage("");
+                    result.setPayload(fo.content);
+                    result.setFileExtension(fo.fileExtension);
+                    result.setModificationDate(fo.modified);
+                    handle(Event.logFine(this.getClass().getSimpleName(), "read from cache"));
+                    return result;
                 }
+            } catch (ClassCastException e) {
             }
-        }else{
-            handleEvent(Event.logInfo("cache", "readed from cache"));
         }
-        // f==null means file not found (sure - it's a shortcut)
-        if (fo != null) {
-            result.setCode(HttpAdapter.SC_OK);
-            result.setMessage("");
-            result.setPayload(fo.content);
-            result.setFileExtension(fo.fileExtension);
-            result.setModificationDate(fo.modified);
-        } else {
-            result.setCode(HttpAdapter.SC_NOT_FOUND);
-            result.setMessage("file not found");
+        // if not in cache
+        if (!fileReady) {
+            File file = new File(filePath);
+            content = fileReader.getFileBytes(file, filePath);
+            if (content.length == 0) {
+                // file not found or empty file
+                result.setCode(HttpAdapter.SC_NOT_FOUND);
+                result.setMessage("file not found");
+                result.setData(request.parameters);
+                result.setPayload("file not found".getBytes());
+                return result;
+            }
+            fo = new FileObject();
+            fo.content = content;
+            fo.modified = new Date(file.lastModified());
+            fo.filePath = filePath;
+            fo.fileExtension = fileReader.getFileExt(filePath);
+            if (htmlAdapter.useCache() && content.length > 0) {
+                webCache.put(filePath, fo);
+            }
         }
-
+        result.setCode(HttpAdapter.SC_OK);
+        result.setMessage("");
+        result.setPayload(fo.content);
+        result.setFileExtension(fo.fileExtension);
+        result.setModificationDate(fo.modified);
         return result;
     }
-    
+
     @InboundAdapterHook(adapterName = "watchdog", inputMethod = "*")
-    public Object processWarchdogEvent(Event event){
-        handleEvent(Event.logInfo("processWatchdogEvent", (String)event.getPayload()));
+    public Object processWarchdogEvent(Event event) {
+        handleEvent(Event.logInfo("processWatchdogEvent", (String) event.getPayload()));
         return null;
     }
-    
+
     @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "*")
     public Object doGetEcho(Event requestEvent) {
         return sendEcho(requestEvent.getRequest());
@@ -197,7 +206,7 @@ public class BasicService extends Kernel {
     public void logEvent(Event event) {
         logAdapter.log(event);
     }
-    
+
     @EventHook(eventCategory = Event.CATEGORY_HTTP_LOG)
     public void logHttpEvent(Event event) {
         logAdapter.log(event);
