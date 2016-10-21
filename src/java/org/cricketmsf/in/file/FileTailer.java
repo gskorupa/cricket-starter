@@ -34,8 +34,9 @@ public class FileTailer extends InboundAdapter implements Adapter, WatchdogIface
 
     private String fileName;
     File file;
-    long lastKnownPosition = 0;
+    long lastKnownPosition = 1;
     private int samplingInterval = 1000;
+    private boolean continuing = false;
 
     /**
      * This method is executed while adapter is instantiated during the service
@@ -49,21 +50,25 @@ public class FileTailer extends InboundAdapter implements Adapter, WatchdogIface
     public void loadProperties(HashMap<String, String> properties, String adapterName) {
         super.getServiceHooks(adapterName);
         setFile(properties.getOrDefault("path", ""));
-        System.out.println("path=" + fileName);
+        System.out.println("\tpath=" + fileName);
         setSamplingInterval(properties.getOrDefault("sampling-interval", "1000"));
+        System.out.println("\tsampling-interval=" + samplingInterval);
     }
 
     @Override
     public void checkStatus() {
         long fileLength = file.length();
-        if (fileLength > lastKnownPosition) {
+        if ((!continuing) || (fileLength > lastKnownPosition)) {
             try (RandomAccessFile readWriteFileAccess = new RandomAccessFile(file, "rw")) {
-                readWriteFileAccess.seek(lastKnownPosition);
+                readWriteFileAccess.seek(lastKnownPosition-1);
                 String newLine;
                 while ((newLine = readWriteFileAccess.readLine()) != null) {
                     // create event
-                    handle(INBOUND_METHOD_NAME, newLine);
+                    if (!newLine.isEmpty() && continuing) {
+                        handle(INBOUND_METHOD_NAME, newLine);
+                    }
                 }
+                continuing = true;
                 lastKnownPosition = readWriteFileAccess.getFilePointer();
             } catch (IOException e) {
             }

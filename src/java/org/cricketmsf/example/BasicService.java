@@ -62,6 +62,7 @@ public class BasicService extends Kernel {
     ScriptingAdapterIface scriptingEngine = null;
     CliIface cli = null;
     WatchdogIface watchdog = null;
+    WatchdogIface tail = null;
 
     @Override
     public void getAdapters() {
@@ -79,6 +80,7 @@ public class BasicService extends Kernel {
         scriptingEngine = (ScriptingAdapterIface) getRegistered("ScriptingEngine");
         cli = (CliIface) getRegistered("CLI");
         watchdog = (WatchdogIface) getRegistered("watchdog");
+        tail = (WatchdogIface) getRegistered("tail");
         // adapters specific to this service goes here
         greeterAdapter = (HttpAdapterIface) getRegistered("greeter");
     }
@@ -194,6 +196,12 @@ public class BasicService extends Kernel {
     @InboundAdapterHook(adapterName = "watchdog", inputMethod = "*")
     public Object processWarchdogEvent(Event event) {
         handleEvent(Event.logInfo("processWatchdogEvent", (String) event.getPayload()));
+        return null;
+    }
+    
+    @InboundAdapterHook(adapterName = "tail", inputMethod = "*")
+    public Object processTailEvent(Event event) {
+        handleEvent(Event.logInfo("processTailEvent", (String) event.getPayload()));
         return null;
     }
 

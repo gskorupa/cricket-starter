@@ -129,6 +129,15 @@
                         "sampling-interval": "1000"
                     }
                 },
+                "tail": {
+                    "name": "tail",
+                    "interfaceName": "WatchdogIface",
+                    "classFullName": "org.cricketmsf.in.file.FileTailer",
+                    "properties": {
+                        "path": "./config/test.txt",
+                        "sampling-interval": "500"
+                    }
+                },
                 "<!--CLI-->": {
                     "comment": "adapter can be deactivater by changing it's ID - we can use html comment approach",
                     "name": "CLI",
