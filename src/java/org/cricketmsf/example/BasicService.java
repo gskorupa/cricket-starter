@@ -55,6 +55,7 @@ public class BasicService extends Kernel {
     KeyValueCacheAdapterIface nosql = null;
     SchedulerIface scheduler = null;
     HtmlGenAdapterIface htmlAdapter = null;
+    HtmlGenAdapterIface helloAdapter = null;
     FileReaderAdapterIface fileReader = null;
     // optional
     H2EmbededIface embededDatabase = null;
@@ -67,15 +68,16 @@ public class BasicService extends Kernel {
     @Override
     public void getAdapters() {
         // standard Cricket adapters
-        logAdapter = (LoggerAdapterIface) getRegistered("LoggerAdapterIface");
-        httpAdapter = (EchoHttpAdapterIface) getRegistered("EchoHttpAdapterIface");
+        logAdapter = (LoggerAdapterIface) getRegistered("logger");
+        httpAdapter = (EchoHttpAdapterIface) getRegistered("EchoHttpAdapter");
         webCache = (KeyValueCacheAdapterIface) getRegistered("webCache");
         nosql = (KeyValueCacheAdapterIface) getRegistered("nosql");
-        scheduler = (SchedulerIface) getRegistered("SchedulerIface");
-        htmlAdapter = (HtmlGenAdapterIface) getRegistered("HtmlGenAdapterIface");
-        fileReader = (FileReaderAdapterIface) getRegistered("FileReaderAdapterIface");
+        scheduler = (SchedulerIface) getRegistered("scheduler");
+        htmlAdapter = (HtmlGenAdapterIface) getRegistered("WwwService");
+        helloAdapter = (HtmlGenAdapterIface) getRegistered("hello");
+        fileReader = (FileReaderAdapterIface) getRegistered("FileReader");
         // optional
-        embededDatabase = (H2EmbededIface) getRegistered("H2EmbededIface");
+        embededDatabase = (H2EmbededIface) getRegistered("H2DB");
         scriptingService = (HttpAdapterIface) getRegistered("ScriptingService");
         scriptingEngine = (ScriptingAdapterIface) getRegistered("ScriptingEngine");
         cli = (CliIface) getRegistered("CLI");
@@ -139,57 +141,12 @@ public class BasicService extends Kernel {
      */
     @HttpAdapterHook(adapterName = "HtmlGenAdapterIface", requestMethod = "GET")
     public Object doGet(Event event) {
-
+        
         RequestObject request = event.getRequest();
-        String filePath = fileReader.getFilePath(request);
-        byte[] content;
-        ParameterMapResult result = new ParameterMapResult();
-
-        // we can use cache if available
-        FileObject fo = null;
-        boolean fileReady = false;
-        if (htmlAdapter.useCache()) {
-            try {
-                fo = (FileObject) webCache.get(filePath);
-                if (fo != null) {
-                    fileReady = true;
-                    result.setCode(HttpAdapter.SC_OK);
-                    result.setMessage("");
-                    result.setPayload(fo.content);
-                    result.setFileExtension(fo.fileExtension);
-                    result.setModificationDate(fo.modified);
-                    handle(Event.logFine(this.getClass().getSimpleName(), "read from cache"));
-                    return result;
-                }
-            } catch (ClassCastException e) {
-            }
-        }
-        // if not in cache
-        if (!fileReady) {
-            File file = new File(filePath);
-            content = fileReader.getFileBytes(file, filePath);
-            if (content.length == 0) {
-                // file not found or empty file
-                result.setCode(HttpAdapter.SC_NOT_FOUND);
-                result.setMessage("file not found");
-                result.setData(request.parameters);
-                result.setPayload("file not found".getBytes());
-                return result;
-            }
-            fo = new FileObject();
-            fo.content = content;
-            fo.modified = new Date(file.lastModified());
-            fo.filePath = filePath;
-            fo.fileExtension = fileReader.getFileExt(filePath);
-            if (htmlAdapter.useCache() && content.length > 0) {
-                webCache.put(filePath, fo);
-            }
-        }
-        result.setCode(HttpAdapter.SC_OK);
-        result.setMessage("");
-        result.setPayload(fo.content);
-        result.setFileExtension(fo.fileExtension);
-        result.setModificationDate(fo.modified);
+        System.out.println(request.uri);
+        ParameterMapResult result = 
+                (ParameterMapResult)fileReader
+                        .getFile(request, htmlAdapter.useCache()?webCache:null);
         return result;
     }
 

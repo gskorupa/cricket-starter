@@ -6,11 +6,14 @@
             "@type": "org.cricketmsf.config.Configuration",
             "id": "BasicService",
             "service": "org.cricketmsf.example.BasicService",
-            "host": "0.0.0.0",
-            "port": "8080",
-            "threads": 0,
-            "filter": "org.cricketmsf.SecurityFilter",
-            "cors": ["Access-Control-Allow-Origin:*"],
+            "properties": {
+                "host": "0.0.0.0",
+                "port": "8080",
+                "threads": 0,
+                "filter": "org.cricketmsf.SecurityFilter",
+                "cors": "Access-Control-Allow-Origin:*",
+                "time-zone": "GMT"
+            },
             "adapters": {
                 "greeter": {
                     "name": "greeter",
@@ -39,8 +42,8 @@
                         "script-file": "./config/script.js"
                     }
                 },
-                "EchoHttpAdapterIface": {
-                    "name": "EchoHttpAdapterIface",
+                "echo": {
+                    "name": "echo",
                     "interfaceName": "EchoHttpAdapterIface",
                     "classFullName": "org.cricketmsf.in.http.EchoHttpAdapter",
                     "properties": {
@@ -48,8 +51,8 @@
                         "silent-mode": "false"
                     }
                 },
-                "LoggerAdapterIface": {
-                    "name": "LoggerAdapterIface",
+                "logger": {
+                    "name": "logger",
                     "interfaceName": "LoggerAdapterIface",
                     "classFullName": "org.cricketmsf.out.log.StandardLogger",
                     "properties": {
@@ -83,8 +86,8 @@
                         "persistent": "false"
                     }
                 },
-                "SchedulerIface": {
-                    "name": "SchedulerIface",
+                "scheduler": {
+                    "name": "scheduler",
                     "interfaceName": "SchedulerIface",
                     "classFullName": "org.cricketmsf.in.scheduler.Scheduler",
                     "properties": {
@@ -93,25 +96,26 @@
                         "file": "scheduler.xml"
                     }
                 },
-                "FileReaderAdapterIface": {
-                    "name": "FileReaderAdapterIface",
+                "FileReader": {
+                    "name": "FileReader",
                     "interfaceName": "FileReaderAdapterIface",
                     "classFullName": "org.cricketmsf.out.file.FileReaderAdapter",
                     "properties": {
                         "root": "./www/"
                     }
                 },
-                "HtmlGenAdapterIface": {
-                    "name": "HtmlGenAdapterIface",
+                "WwwService": {
+                    "name": "WwwService",
                     "interfaceName": "HtmlGenAdapterIface",
                     "classFullName": "org.cricketmsf.in.http.HtmlGenAdapter",
                     "properties": {
                         "context": "/",
-                        "use-cache": "true"
+                        "use-cache": "true",
+                        "page-processor": "false"
                     }
                 },
-                "H2EmbededIface": {
-                    "name": "H2EmbededIface",
+                "H2DB": {
+                    "name": "H2DB",
                     "interfaceName": "H2EmbededIface",
                     "classFullName": "org.cricketmsf.out.db.H2Embeded",
                     "properties": {
