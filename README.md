@@ -9,12 +9,12 @@
 
 ### 1. Get starter template from GitHub
 
-   `git clone https://github.com/gskorupa/cricket-starter`
+   `git clone --depth 1 https://github.com/gskorupa/cricket-starter mydirectory`
 
 ### 2. Build
 
    ```
-   cd cricket-starter  
+   cd mydirectory  
    ant dist  
    ```
 
