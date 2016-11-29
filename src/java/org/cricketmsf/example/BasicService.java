@@ -15,8 +15,6 @@
  */
 package org.cricketmsf.example;
 
-import java.io.File;
-import java.util.Date;
 import org.cricketmsf.Event;
 import org.cricketmsf.Kernel;
 import org.cricketmsf.RequestObject;
@@ -35,7 +33,6 @@ import org.cricketmsf.in.http.StandardResult;
 import org.cricketmsf.in.scheduler.SchedulerIface;
 import org.cricketmsf.out.db.H2EmbededIface;
 import org.cricketmsf.out.db.KeyValueCacheAdapterIface;
-import org.cricketmsf.out.file.FileObject;
 import org.cricketmsf.out.file.FileReaderAdapterIface;
 import org.cricketmsf.out.log.LoggerAdapterIface;
 import org.cricketmsf.out.script.ScriptingAdapterIface;
@@ -55,7 +52,6 @@ public class BasicService extends Kernel {
     KeyValueCacheAdapterIface nosql = null;
     SchedulerIface scheduler = null;
     HtmlGenAdapterIface htmlAdapter = null;
-    HtmlGenAdapterIface helloAdapter = null;
     FileReaderAdapterIface fileReader = null;
     // optional
     H2EmbededIface embededDatabase = null;
@@ -69,12 +65,11 @@ public class BasicService extends Kernel {
     public void getAdapters() {
         // standard Cricket adapters
         logAdapter = (LoggerAdapterIface) getRegistered("logger");
-        httpAdapter = (EchoHttpAdapterIface) getRegistered("EchoHttpAdapter");
+        httpAdapter = (EchoHttpAdapterIface) getRegistered("echo");
         webCache = (KeyValueCacheAdapterIface) getRegistered("webCache");
         nosql = (KeyValueCacheAdapterIface) getRegistered("nosql");
         scheduler = (SchedulerIface) getRegistered("scheduler");
         htmlAdapter = (HtmlGenAdapterIface) getRegistered("WwwService");
-        helloAdapter = (HtmlGenAdapterIface) getRegistered("hello");
         fileReader = (FileReaderAdapterIface) getRegistered("FileReader");
         // optional
         embededDatabase = (H2EmbededIface) getRegistered("H2DB");
@@ -162,7 +157,7 @@ public class BasicService extends Kernel {
         return null;
     }
 
-    @HttpAdapterHook(adapterName = "EchoHttpAdapterIface", requestMethod = "*")
+    @HttpAdapterHook(adapterName = "echo", requestMethod = "*")
     public Object doGetEcho(Event requestEvent) {
         return sendEcho(requestEvent.getRequest());
     }
