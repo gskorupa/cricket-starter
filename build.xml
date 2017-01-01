@@ -7,7 +7,7 @@
         
     <!-- set your local properties for this build -->
     <property name="version" value="1.0.0"/> <!-- service version -->
-    <property name="cricket-jar-location" value="lib/cricket.jar" />
+    <property name="cricket-jar-location" value="lib/cricket-1.0.0.jar" />
     <property name="docker-repository" value="gskorupa" />
 
     <!-- uncomment if you need Tomcat libraries to compile the project -->

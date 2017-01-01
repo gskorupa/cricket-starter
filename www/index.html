@@ -1,65 +1,37 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Cricket MSF sample page</title>
+        <title>Cricket MSF samples</title>
         <meta charset="UTF-8">
         <link rel="icon" href="/cricket_icon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                sendRequest();
-            });
-
-            function sendRequest() {
-                $.ajax({
-                    url: "/echo",
-                    data: {
-                        name: "John",
-                        surname: "Smith"
-                    },
-                    type: "GET",
-                    dataType: "json",
-                    success: function (json) {
-                        modifyContent(json);
-                    }
-                });
-            }
-            ;
-
-            function modifyContent(jsonObject) {
-                $("#name").html(jsonObject.data.name);
-                $("#surname").html(jsonObject.data.surname);
-                $("#code").html(jsonObject.code);
-            }
-            ;
-        </script>
     </head>
     <body>
         <header class="w3-container w3-blue">
-            <h1>Web GUI example</h1>
-            <p>Using echo adapter as the back-end</p>
+            <h1>List of examples</h1>
         </header>
-
-        <table class="w3-table w3-striped w3-bordered w3-border">
-            <tr>
-                <th>Parameter</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>data.name</td>
-                <td id="name">data</td>
-            </tr>
-            <tr>
-                <td>data.surname</td>
-                <td id="surname">data</td>
-            </tr>
-            <tr>
-                <td>response code</td>
-                <td id="code">data</td>
-            </tr>
-        </table>
+        <div class="w3-container">
+            <table class="w3-table w3-striped w3-bordered w3-border" style="margin-top: 20px; margin-bottom: 20px;">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><a href="/hello">Hello</a></td>
+                    <td id="name">Page processing example</td>
+                </tr>
+                <tr>
+                    <td><a href="/todo">TODO</a></td>
+                    <td id="surname">TODO application</td>
+                </tr>
+                <tr>
+                    <td><a href="/example1">Example</a></td>
+                    <td id="code">Get data from back-end Cricket microservice using Ajax request.</td>
+                </tr>
+            </table>
+        </div>
         <footer class="w3-container w3-light-blue">
             <p>Built with <a href="http://www.cricketmsf.org">Cricket Microservices Framework</a></p>
         </footer>

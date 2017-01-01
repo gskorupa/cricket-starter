@@ -134,7 +134,7 @@ public class BasicService extends Kernel {
      * @param event
      * @return ParameterMapResult with the file content as a byte array
      */
-    @HttpAdapterHook(adapterName = "HtmlGenAdapterIface", requestMethod = "GET")
+    @HttpAdapterHook(adapterName = "WwwService", requestMethod = "GET")
     public Object doGet(Event event) {
         
         RequestObject request = event.getRequest();
