@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Cricket MSF samples</title>
-        <meta charset="UTF-8">
-        <link rel="icon" href="/cricket_icon.png">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-        <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Cricket MSF samples</title>
+        <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="/lib/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!--<script src="/lib/riot+compiler.min.js"></script>-->
     </head>
     <body>
-        <header class="w3-container w3-blue">
-            <h1>List of examples</h1>
-        </header>
-        <div class="w3-container">
-            <table class="w3-table w3-striped w3-bordered w3-border" style="margin-top: 20px; margin-bottom: 20px;">
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                </tr>
-                <tr>
-                    <td><a href="/hello">Hello</a></td>
-                    <td id="name">Page processing example</td>
-                </tr>
-                <tr>
-                    <td><a href="/todo">TODO</a></td>
-                    <td id="surname">TODO application</td>
-                </tr>
-                <tr>
-                    <td><a href="/example1">Example</a></td>
-                    <td id="code">Get data from back-end Cricket microservice using Ajax request.</td>
-                </tr>
-            </table>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Example 1</h2>
+          <p>Using W3.CSS and JQuery to get and display data from the supporting service</p>
+          <p><a class="btn btn-default" href="example1/index.html" role="button">View details &raquo;</a></p>
         </div>
-        <footer class="w3-container w3-light-blue">
-            <p>Built with <a href="http://www.cricketmsf.org">Cricket Microservices Framework</a></p>
-        </footer>
+        <div class="col-md-4">
+          <h2>Hello</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="hello/index.html" role="button">View details &raquo;</a></p>
+       </div>
+        <div class="col-md-4">
+          <h2>To do list</h2>
+          <p>Simple TODO list application. The list is accessed through the dedicated REST API, provided by the same service. 
+              The application uses <a href="http://www.w3schools.com/w3css/" target="_blank">W3.CSS</a> &amp; 
+              <a href="http://riotjs.com/" target="_blank">Riot</a> to render GUI.</p>
+          <p><a class="btn btn-default" href="todo/index.html" role="button">Show the example &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>build with Cricket MSF</p>
+      </footer>
+    </div> <!-- /container -->
+
     </body>
 </html>

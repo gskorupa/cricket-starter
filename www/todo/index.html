@@ -23,43 +23,28 @@
         <link rel="icon" type="image/png" sizes="50x51" href="/cricket_icon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/lib/w3.css">
-        <script src="/lib/w3data.js"></script>
         <script src="js/main.js"></script>
     </head>
     <body>
-        <header class="w3-container w3-blue">
-            <h1>My TODO list</h1>
-        </header>
-        <div class="w3-container">
-            <h3 id="netStatus">Active tasks</h3>
-        </div>
-        <div class="w3-container">
-            <table id="todolist" class="w3-table">
-                <tr w3-repeat="todos">
-                    <td>{{name}}</td><td>{{description}}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="w3-container">
-            <h3>Add new task</h3>
-        </div>
-        <form class="w3-container" method="POST" 
-              onsubmit="AJAXSubmit(this, 'todolist', 'status', getData); return false;">
-            <label>Task name</label>
-            <input class="w3-input w3-border" name="name" type="text">
-            <label>Description</label>
-            <input class="w3-input w3-border" name="description" type="text">
-            <p></p>
-            <button class="w3-btn w3-blue">Save</button>
-        </form>
-        <div class="w3-container">
-            <p></p>
-        </div>
-        <footer class="w3-container w3-light-blue">
-            <p id="status">offline</p>
-        </footer>
-        <script>
-            getData("todolist","status");
-        </script>
-    </body>
+    <app-header></app-header>
+    <app-table title="My list"></app-table>
+    <app-form></app-form>
+    <app-footer></app-footer>
+    <!-- scripts we need -->
+    <script src="https://rawgit.com/riot/riot/master/riot%2Bcompiler.min.js"></script>
+    <script src="https://rawgit.com/riot/route/master/dist/route.min.js"></script>
+    <!-- loading tags -->
+    <script data-src="tags/app-header.tag" type="riot/tag"></script>
+    <script data-src="tags/app-table.tag" type="riot/tag"></script>
+    <script data-src="tags/app-form.tag" type="riot/tag"></script>
+    <script data-src="tags/app-footer.tag" type="riot/tag"></script>
+    <script>
+        riot.compile(function () {
+            var tags = riot.mount('*')
+        })
+    </script>
+    <script>
+        AJAXGet();
+    </script>
+</body>
 </html>
