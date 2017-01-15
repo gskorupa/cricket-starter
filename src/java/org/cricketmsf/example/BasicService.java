@@ -142,6 +142,10 @@ public class BasicService extends Kernel {
         ParameterMapResult result = 
                 (ParameterMapResult)fileReader
                         .getFile(request, htmlAdapter.useCache()?webCache:null);
+        
+        // caching policy 
+        result.setMaxAge(120);
+        
         return result;
     }
 

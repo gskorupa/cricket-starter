@@ -7,13 +7,19 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>My Todo App</title>
         <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css">-->
         <script src="js/main.js"></script>
     </head>
     <body>
     <app-header></app-header>
     <app-table title="My list"></app-table>
-    <app-form></app-form>
+    <app-about></app-about>
     <app-footer></app-footer>
     <!-- scripts we need -->
     <script src="https://rawgit.com/riot/riot/master/riot+compiler.min.js"></script>
@@ -22,6 +28,7 @@
     <script data-src="tags/app-header.tag" type="riot/tag"></script>
     <script data-src="tags/app-table.tag" type="riot/tag"></script>
     <script data-src="tags/app-form.tag" type="riot/tag"></script>
+    <script data-src="tags/app-about.tag" type="riot/tag"></script>
     <script data-src="tags/app-footer.tag" type="riot/tag"></script>
     <script>
         riot.compile(function () {
@@ -29,7 +36,7 @@
         })
     </script>
     <script>
-        AJAXGet();
+        getData();
     </script>
 </body>
 </html>

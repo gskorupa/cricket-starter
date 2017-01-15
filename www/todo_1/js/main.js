@@ -13,15 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 var app = {
     "myData": {"todos": []},
     "offline": false,
-    "resourcesUrl": "http://localhost:8080/api/todos"
+    "resourcesUrl": "http://localhost:8080/api/todos",
+    "currentPage": "main",
+    "pages": {
+        "main": {
+            "visible": 1,
+            "form-visible": 0,
+            "isFormVisible": function () {
+                if (app.myData.todos.length == 0) {
+                    app.pages.main['form-visible'] = 1;
+                }
+                return (app.pages.main['form-visible'] > 0);
+            },
+            "toggleForm": function () {
+                if (app.myData.todos.length == 0) {
+                    app.pages.main['form-visible'] = 1;
+                } else {
+                    app.pages.main['form-visible'] =
+                            app.pages.main['form-visible'] == 0 ? 1 : 0;
+                }
+                riot.update();
+            }
+        },
+        "about": {
+            "visible": 0
+        }
+    }
 }
-        
+
+function showAbout() {
+    app.pages.main['visible'] = 0;
+    app.pages.about['visible'] = 1;
+    riot.update();
+}
+
+function showMain() {
+    app.pages.main['visible'] = 1;
+    app.pages.about['visible'] = 0;
+    riot.update();
+}
 // get data from the service
-function AJAXGet() {
+function getData() {
     if (app.offline) {
         return;
     }
@@ -48,21 +84,45 @@ function AJAXGet() {
     return false;
 }
 
+function postData(oFormElement, callback) {
+    if (app.offline) {
+        submitLocally(oFormElement);
+        riot.update();
+        return;
+    }
+    var oReq = new XMLHttpRequest();
+    oReq.onerror = function (oEvent) { };
+    oReq.onload = function (oEvent) {/*getdataCallback(elementId, statusId);*/
+    };
+    oReq.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 201) {
+            callback();
+        } else if (this.readyState == 4 && this.status == 0) {
+        }
+    };
+    // method declared in the form is ignored
+    oReq.open("post", app.resourcesUrl);
+    oReq.send(new FormData(oFormElement));
+    oFormElement.reset();
+    return false;
+}
 
 // submit application form data to the service
-function AJAXSubmit(oFormElement, getdataCallback) {
+// not used
+function AXAJSubmit(oFormElement, getdataCallback) {
     if (app.offline) {
         submitLocally(oFormElement);
         riot.update();
         return;
     }
     /*
-    if (!oFormElement.action) {
-        return;
-    }*/
+     if (!oFormElement.action) {
+     return;
+     }*/
     var oReq = new XMLHttpRequest();
     oReq.onerror = function (oEvent) { };
-    oReq.onload = function (oEvent) {/*getdataCallback(elementId, statusId);*/};
+    oReq.onload = function (oEvent) {/*getdataCallback(elementId, statusId);*/
+    };
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 201) {
             getdataCallback();

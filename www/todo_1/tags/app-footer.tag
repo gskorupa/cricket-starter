@@ -1,5 +1,5 @@
 <app-footer>
-    <div class="container-fluid">
+    <footer class="container-fluid">
         <div class="row">
             <div class="col-md-12 disabled">
                 <p></p>
@@ -10,5 +10,12 @@
                 <p>{app.offline ? "offline" : "online"}</p>
             </div>
         </div>
-    </div>
+    </footer>
+    <style>
+        :scope {
+            margin-top: 10px;
+            display: block;
+            background-color: #b4b9de;
+        }
+    </style>
 </app-footer>
