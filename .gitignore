@@ -13,3 +13,5 @@
 /cricketms.zip
 /data/servicedb.h2.db
 /data/servicedb.trace.db
+/service.zip
+/data/servicedb.lock.db
