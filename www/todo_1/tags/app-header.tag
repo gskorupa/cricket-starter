@@ -8,15 +8,31 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">TODO app</a>
+                <a class="navbar-brand" href="#">{ text.name[app.language] }</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-links">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" onclick="showMain()" data-toggle="collapse" data-target="#navbar-links">Todo list</a></li>
-                    <li><a href="#" onclick="showAbout()" data-toggle="collapse" data-target="#navbar-links">About</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target="#navbar-links">{ text.tasks[app.language] }</a></li>
+                    <li><a href="#about" data-toggle="collapse" data-target="#navbar-links">{ text.about[app.language] }</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+    <script>
+        this.text = {
+            "name": {
+                "en": "TODOs",
+                "pl": "Zadania"
+                },
+            "tasks": {
+                "en": "Tasks list",
+                "pl": "Lista zadań"
+                },
+            "about": {
+                "en": "About",
+                "pl": "O programie"
+                }
+        }
+    </script>
 </app-header>

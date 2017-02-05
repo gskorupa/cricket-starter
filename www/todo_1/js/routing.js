@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
+route(function(id){
+    switch (id){
+        case "":
+            showMain();
+            break;
+        case "about":
+            showAbout();
+            break;
+    }
+    riot.update();
+})
+
 function showAbout() {
     app.pages.main['visible'] = 0;
     app.pages.about['visible'] = 1;
-    riot.update();
+    
 }
 
 function showMain() {
     app.pages.main['visible'] = 1;
     app.pages.about['visible'] = 0;
-    riot.update();
+    getData();
 }

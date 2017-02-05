@@ -32,7 +32,8 @@ import org.cricketmsf.in.http.ParameterMapResult;
 import org.cricketmsf.in.http.StandardResult;
 import org.cricketmsf.in.scheduler.SchedulerIface;
 import org.cricketmsf.out.db.H2EmbededIface;
-import org.cricketmsf.out.db.KeyValueCacheAdapterIface;
+import org.cricketmsf.out.db.KeyValueDBException;
+import org.cricketmsf.out.db.KeyValueDBIface;
 import org.cricketmsf.out.file.FileReaderAdapterIface;
 import org.cricketmsf.out.log.LoggerAdapterIface;
 import org.cricketmsf.out.script.ScriptingAdapterIface;
@@ -48,8 +49,7 @@ public class BasicService extends Kernel {
     HttpAdapterIface greeterAdapter = null;
     LoggerAdapterIface logAdapter = null;
     EchoHttpAdapterIface httpAdapter = null;
-    KeyValueCacheAdapterIface webCache = null;
-    KeyValueCacheAdapterIface nosql = null;
+    KeyValueDBIface database = null;
     SchedulerIface scheduler = null;
     HtmlGenAdapterIface htmlAdapter = null;
     FileReaderAdapterIface fileReader = null;
@@ -66,8 +66,7 @@ public class BasicService extends Kernel {
         // standard Cricket adapters
         logAdapter = (LoggerAdapterIface) getRegistered("logger");
         httpAdapter = (EchoHttpAdapterIface) getRegistered("echo");
-        webCache = (KeyValueCacheAdapterIface) getRegistered("webCache");
-        nosql = (KeyValueCacheAdapterIface) getRegistered("nosql");
+        database = (KeyValueDBIface) getRegistered("database");
         scheduler = (SchedulerIface) getRegistered("scheduler");
         htmlAdapter = (HtmlGenAdapterIface) getRegistered("WwwService");
         fileReader = (FileReaderAdapterIface) getRegistered("FileReader");
@@ -84,6 +83,14 @@ public class BasicService extends Kernel {
 
     @Override
     public void runInitTasks() {
+        try {
+            database.addTable("webcache", 100, false);
+        } catch (KeyValueDBException e) {
+        }
+        try {
+            database.addTable("counters", 1, false);
+        } catch (KeyValueDBException e) {
+        }
     }
 
     @Override
@@ -136,16 +143,16 @@ public class BasicService extends Kernel {
      */
     @HttpAdapterHook(adapterName = "WwwService", requestMethod = "GET")
     public Object doGet(Event event) {
-        
+
         RequestObject request = event.getRequest();
         System.out.println(request.uri);
-        ParameterMapResult result = 
-                (ParameterMapResult)fileReader
-                        .getFile(request, htmlAdapter.useCache()?webCache:null);
-        
+        ParameterMapResult result
+                = (ParameterMapResult) fileReader
+                        .getFile(request, htmlAdapter.useCache() ? database : null, "webcache");
+
         // caching policy 
         result.setMaxAge(120);
-        
+
         return result;
     }
 
@@ -154,7 +161,7 @@ public class BasicService extends Kernel {
         handleEvent(Event.logInfo("processWatchdogEvent", (String) event.getPayload()));
         return null;
     }
-    
+
     @InboundAdapterHook(adapterName = "tail", inputMethod = "*")
     public Object processTailEvent(Event event) {
         handleEvent(Event.logInfo("processTailEvent", (String) event.getPayload()));
@@ -188,29 +195,32 @@ public class BasicService extends Kernel {
     public Object sendEcho(RequestObject request) {
         StandardResult r = new StandardResult();
         r.setCode(HttpAdapter.SC_OK);
-        if (!httpAdapter.isSilent()) {
-            // with echo counter
-            Long counter;
-            counter = (Long) nosql.get("counter", new Long(0));
-            counter++;
-            nosql.put("counter", counter);
-            HashMap<String, Object> data = new HashMap<>(request.parameters);
-            data.put("service.uuid", getUuid().toString());
-            data.put("request.method", request.method);
-            data.put("request.pathExt", request.pathExt);
-            data.put("echo.counter", nosql.get("counter"));
-            if (data.containsKey("error")) {
-                int errCode = HttpAdapter.SC_INTERNAL_SERVER_ERROR;
-                try {
-                    errCode = Integer.parseInt((String) data.get("error"));
-                } catch (Exception e) {
+        try {
+            if (!httpAdapter.isSilent()) {
+                // with echo counter
+                Long counter;
+                counter = (Long) database.get("counter", "counters", new Long(0));
+                counter++;
+                database.put("counter", "counters", counter);
+                HashMap<String, Object> data = new HashMap<>(request.parameters);
+                data.put("service.uuid", getUuid().toString());
+                data.put("request.method", request.method);
+                data.put("request.pathExt", request.pathExt);
+                data.put("echo.counter", database.get("counter", "counters"));
+                if (data.containsKey("error")) {
+                    int errCode = HttpAdapter.SC_INTERNAL_SERVER_ERROR;
+                    try {
+                        errCode = Integer.parseInt((String) data.get("error"));
+                    } catch (Exception e) {
+                    }
+                    r.setCode(errCode);
+                    data.put("error", "error forced by request");
                 }
-                r.setCode(errCode);
-                data.put("error", "error forced by request");
+                r.setData(data);
             }
-            r.setData(data);
+        } catch (KeyValueDBException e) {
+            handle(Event.logSevere(this.getClass().getSimpleName(), e.getMessage()));
         }
         return r;
     }
-
 }

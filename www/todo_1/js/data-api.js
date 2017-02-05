@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-
 // get data from the service
 function getData() {
     if (app.offline) {
+        globalEvents.trigger("data:ready");
         return;
     }
     var oReq = new XMLHttpRequest();
-    oReq.onerror = function (oEvent) { };
+    oReq.onerror = function (oEvent) { 
+        if(app.debug) { console.log(oEvent.toString()) };
+    };
     oReq.onload = function (oEvent) {/*getdataCallback(elementId, statusId);*/
+        if(app.debug) { console.log(oEvent.toString()) };
     };
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             app.myData = JSON.parse(this.responseText);
             app.offline = false;
-            riot.update();
+            globalEvents.trigger("data:ready");
         } else if (this.readyState == 4 && this.status == 0) {
             app.offline = true;
+            globalEvents.trigger("data:get-error");
         }
     };
     //hValue = 'Basic ';
@@ -43,26 +47,25 @@ function getData() {
     return false;
 }
 
-function postData(oFormElement, callback) {
-    if (app.offline) {
-        submitLocally(oFormElement);
-        riot.update();
-        return;
-    }
+function postFormData(oFormElement, url, successEventName) {
+    if(app.debug) { console.log("postFormData") };
     var oReq = new XMLHttpRequest();
-    oReq.onerror = function (oEvent) { };
-    oReq.onload = function (oEvent) {/*getdataCallback(elementId, statusId);*/
+    oReq.onerror = function (oEvent) { 
+        if(app.debug) { console.log(oEvent.toString()) };
+    };
+    oReq.onload = function (oEvent) { 
+        if(app.debug) { console.log(oEvent.toString()) };
     };
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 201) {
-            callback();
-        } else if (this.readyState == 4 && this.status == 0) {
+            globalEvents.trigger(successEventName);
+        } else {
+            if(app.debug) { console.log("state "+this.readyState+" status: "+this.status) };
         }
     };
     // method declared in the form is ignored
-    oReq.open("post", app.resourcesUrl);
+    oReq.open("post", url);
     oReq.send(new FormData(oFormElement));
-    oFormElement.reset();
     return false;
 }
 
@@ -115,11 +118,3 @@ function AXAJSubmit(oFormElement, getdataCallback) {
     return false;
 }
 
-// store application form data locally (if the service is not available)
-function submitLocally(oFormElement) {
-    var newToDo = {
-        "name": oFormElement.elements["name"].value,
-        "description": oFormElement.elements["description"].value
-    };
-    app.myData.todos.push(newToDo);
-}

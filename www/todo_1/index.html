@@ -14,19 +14,18 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css">-->
-        <script src="js/app.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/text-resources.js"></script>
-        <script src="js/data-api.js"></script>
     </head>
     <body>
         <app-header></app-header>
-        <app-table title="My list"></app-table>
+        <app-table></app-table>
         <app-about></app-about>
         <app-footer></app-footer>
     <!-- scripts we need -->
     <script src="https://rawgit.com/riot/riot/master/riot+compiler.min.js"></script>
     <script src="https://rawgit.com/riot/route/master/dist/route.min.js"></script>
+    <script src="js/routing.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/data-api.js"></script>
     <!-- loading tags -->
     <script data-src="tags/app-header.tag" type="riot/tag"></script>
     <script data-src="tags/app-table.tag" type="riot/tag"></script>
@@ -35,11 +34,12 @@
     <script data-src="tags/app-footer.tag" type="riot/tag"></script>
     <script>
         riot.compile(function () {
-            var tags = riot.mount('*')
+            var tags = riot.mount('*', globalEvents);
+            route.start(true);
         })
     </script>
     <script>
-        getData();
+        //getData();
     </script>
 </body>
 </html>

@@ -14,31 +14,19 @@
  * limitations under the License.
  */
 
+var globalEvents = riot.observable();
+
 var app = {
     "myData": {"todos": []},
     "offline": false,
     "resourcesUrl": "http://localhost:8080/api/todos",
     "currentPage": "main",
     "language": "en",
+    "languages": ["en","pl"],
+    "debug": false,
     "pages": {
         "main": {
-            "visible": 1,
-            "form-visible": 0,
-            "isFormVisible": function () {
-                if (app.myData.todos.length == 0) {
-                    app.pages.main['form-visible'] = 1;
-                }
-                return (app.pages.main['form-visible'] > 0);
-            },
-            "toggleForm": function () {
-                if (app.myData.todos.length == 0) {
-                    app.pages.main['form-visible'] = 1;
-                } else {
-                    app.pages.main['form-visible'] =
-                            app.pages.main['form-visible'] == 0 ? 1 : 0;
-                }
-                riot.update();
-            }
+            "visible": 1
         },
         "about": {
             "visible": 0
