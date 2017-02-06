@@ -1,50 +1,46 @@
 <!DOCTYPE html>
-<!--
-/*
- * Copyright 2016 Grzegorz Skorupa <g.skorupa at gmail.com>.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
--->
-<html>
+<html lang="en">
     <head>
-        <title>TODO SPA example</title>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/png" sizes="50x51" href="/cricket_icon.png">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/lib/w3.css">
-        <script src="js/main.js"></script>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>My Todo App</title>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css">-->
     </head>
     <body>
-    <app-header></app-header>
-    <app-table title="My list"></app-table>
-    <app-form></app-form>
-    <app-footer></app-footer>
-    <!-- scripts we need -->
-    <script src="https://rawgit.com/riot/riot/master/riot%2Bcompiler.min.js"></script>
+        <app-header></app-header>
+        <app-table></app-table>
+        <app-about></app-about>
+        <app-footer></app-footer>
+    <!-- Riot scripts we need -->
+    <script src="https://rawgit.com/riot/riot/master/riot+compiler.min.js"></script>
     <script src="https://rawgit.com/riot/route/master/dist/route.min.js"></script>
+    <!-- Application scripts -->
+    <script src="js/routing.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/data-api.js"></script>
     <!-- loading tags -->
     <script data-src="tags/app-header.tag" type="riot/tag"></script>
     <script data-src="tags/app-table.tag" type="riot/tag"></script>
     <script data-src="tags/app-form.tag" type="riot/tag"></script>
+    <script data-src="tags/app-about.tag" type="riot/tag"></script>
     <script data-src="tags/app-footer.tag" type="riot/tag"></script>
     <script>
         riot.compile(function () {
-            var tags = riot.mount('*')
+            var tags = riot.mount('*', globalEvents);
+            route.start(true);
         })
     </script>
     <script>
-        AJAXGet();
+        getData();
     </script>
 </body>
 </html>

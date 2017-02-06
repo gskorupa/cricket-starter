@@ -1,5 +1,5 @@
 <app-about>
-    <div class="container-fluid" if={app.pages.about['visible'] == 1}>
+    <div class="container-fluid" if={app.currentPage == 'about'}>
         <div class="row">
             <div class="col-md-12">
                 <h1>{text.title[app.language]}</h1>

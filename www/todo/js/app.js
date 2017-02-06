@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-route(function(id){
-    switch (id){
-        case "":
-            showMain();
-            break;
-        case "about":
-            showAbout();
-            break;
-    }
-    riot.update();
-})
+var globalEvents = riot.observable();
 
-function showAbout() {
-    app.pages.main['visible'] = 0;
-    app.pages.about['visible'] = 1;
-    
+var app = {
+    "myData": {"todos": []},
+    "offline": false,
+    "resourcesUrl": "http://localhost:8080/api/todos",
+    "currentPage": "main",
+    "language": "en",
+    "languages": ["en","pl"],
+    "debug": false,
 }
 
-function showMain() {
-    app.pages.main['visible'] = 1;
-    app.pages.about['visible'] = 0;
-    getData();
-}
+// not used, example
+var exampleData = {"todos": [
+        {"name": "my task 1", "description": "description 1"},
+        {"name": "my task 2", "description": "description 2"}
+    ]};

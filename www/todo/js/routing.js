@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-var globalEvents = riot.observable();
-
-var app = {
-    "myData": {"todos": []},
-    "offline": false,
-    "resourcesUrl": "http://localhost:8080/api/todos",
-    "currentPage": "main",
-    "language": "en",
-    "languages": ["en","pl"],
-    "debug": false,
-    "pages": {
-        "main": {
-            "visible": 1
-        },
-        "about": {
-            "visible": 0
-        }
+route(function(id){
+    switch (id){
+        case "":
+            app.currentPage = "main";
+            break;
+        case "about":
+            app.currentPage = "about";
+            break;
     }
-}
+    riot.update();
+})
 
-// not used, example
-var exampleData = {"todos": [
-        {"name": "my task 1", "description": "description 1"},
-        {"name": "my task 2", "description": "description 2"}
-    ]};

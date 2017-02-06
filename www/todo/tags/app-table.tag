@@ -1,12 +1,47 @@
 <app-table>
-    <div class="w3-container" if={app.myData.todos.length>0}>
-        <h3 id="netStatus">{opts.title}</h3>
+    <div class="container-fluid" if={app.currentPage == 'main'}>
+        <div class="row" >
+            <div class="col-md-12">
+                <h4 id="netStatus">{text.title[app.language]}</h4>
+            </div>
+        </div>
+        <div class="row"  if={app.myData.todos.length>0}>
+            <div class="col-md-12">
+                <table id="todolist" class="table table-condensed">
+                    <tr>
+                        <th>{text.h_name[app.language]}</th><th>{text.h_description[app.language]}</th><th></th>
+                    </tr>
+                    <tr each={todo in app.myData.todos}>
+                        <td>{todo.name}</td><td>{todo.description}</td><td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <app-form></app-form>
     </div>
-    <div class="w3-container" if={app.myData.todos.length>0}>
-        <table id="todolist" class="w3-table">
-            <tr each={todo in app.myData.todos}>
-                <td>{todo.name}</td><td>{todo.description}</td>
-            </tr>
-        </table>
-    </div>
+    <script>
+        
+        globalEvents.on('data:submitted',function(event){
+            if(app.debug) { console.log("Here We go!") }
+            getData()
+        });
+        globalEvents.on('data:ready',function(event){
+            if(app.debug) { console.log("ready!") }
+            riot.update()
+        });
+        this.text = {
+            "title": {
+                "en": "my tasks",
+                "pl": "moje zadania"
+                },
+            "h_name": {
+                "en": "task",
+                "pl": "zadanie"
+                },
+            "h_description": {
+                "en": "description",
+                "pl": "opis"
+                }
+        }
+    </script>
 </app-table>
