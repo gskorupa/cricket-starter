@@ -11,7 +11,7 @@
     <!--                                                                     -->
     <description>Cricket microservice 4 home.</description>
     <property name="version" value="1.1.1"/> <!-- service version            -->
-    <property name="cricket-jar-location" value="lib/cricket-1.1.0-SNAPSHOT.jar" />
+    <property name="cricket-jar-location" value="lib/cricket-1.1.0.jar" />
     <property name="docker-repository" value="gskorupa" />
     <!-- configuration of libraries included in the distribution fat-jar     -->
     <!-- set value=false to exclude selected library                         -->

@@ -24,10 +24,5 @@ var app = {
     "language": "en",
     "languages": ["en","pl"],
     "debug": false,
+    "localUid": 0
 }
-
-// not used, example
-var exampleData = {"todos": [
-        {"name": "my task 1", "description": "description 1"},
-        {"name": "my task 2", "description": "description 2"}
-    ]};

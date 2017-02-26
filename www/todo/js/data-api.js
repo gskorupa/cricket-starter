@@ -15,52 +15,47 @@
  */
 
 // get data from the service
-function getData() {
-    if (app.offline) {
-        globalEvents.trigger("data:ready");
-        return;
-    }
+function getData(url, myData, eventBus, successEventName, errorEventName, debug) {
+    //if (app.offline) {
+    //    eventBus.trigger(successEventName);
+    //    return;
+    //}
     var oReq = new XMLHttpRequest();
     oReq.onerror = function (oEvent) { 
-        if(app.debug) { console.log(oEvent.toString()) };
+        if(debug) { console.log(oEvent.toString()) };
     };
     oReq.onload = function (oEvent) {/*getdataCallback(elementId, statusId);*/
-        if(app.debug) { console.log(oEvent.toString()) };
+        if(debug) { console.log(oEvent.toString()) };
     };
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             app.myData = JSON.parse(this.responseText);
-            app.offline = false;
-            globalEvents.trigger("data:ready");
+            eventBus.trigger(successEventName);
         } else if (this.readyState == 4 && this.status == 0) {
-            app.offline = true;
-            globalEvents.trigger("data:get-error");
+            eventBus.trigger(errorEventName);
         }
     };
-    //hValue = 'Basic ';
-    //hValue += key;
-    //alert('sending with header '+ hValue);
-    oReq.open("get", app.resourcesUrl, true);
-    //oReq.withCredentials = true;
-    //oReq.setRequestHeader("Authentication", hValue);
+
+    oReq.open("get", url, true);
     oReq.send(null);
     return false;
 }
 
-function postFormData(oFormElement, url, successEventName) {
-    if(app.debug) { console.log("postFormData") };
+function postFormData(oFormElement, url, eventBus, successEventName, errorEventName, debug) {
+    if(debug) { console.log("postFormData") };
     var oReq = new XMLHttpRequest();
     oReq.onerror = function (oEvent) { 
-        if(app.debug) { console.log(oEvent.toString()) };
+        if(debug) { console.log(oEvent.toString()) };
+        eventBus.trigger(errorEventName);
     };
     oReq.onload = function (oEvent) { 
-        if(app.debug) { console.log(oEvent.toString()) };
+        if(debug) { console.log(oEvent.toString()) };
     };
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 201) {
-            globalEvents.trigger(successEventName);
+            eventBus.trigger(successEventName);
         } else {
-            if(app.debug) { console.log("state "+this.readyState+" status: "+this.status) };
+            if(debug) { console.log("state "+this.readyState+" status: "+this.status) };
         }
     };
     // method declared in the form is ignored
@@ -69,52 +64,24 @@ function postFormData(oFormElement, url, successEventName) {
     return false;
 }
 
-// submit application form data to the service
-// not used
-function AXAJSubmit(oFormElement, getdataCallback) {
-    if (app.offline) {
-        submitLocally(oFormElement);
-        riot.update();
-        return;
-    }
-    /*
-     if (!oFormElement.action) {
-     return;
-     }*/
+function deleteData(id, url, eventBus, successEventName, errorEventName, debug) {
+
     var oReq = new XMLHttpRequest();
-    oReq.onerror = function (oEvent) { };
+    oReq.onerror = function (oEvent) { 
+        if(debug) { console.log(oEvent.toString()) };
+    };
     oReq.onload = function (oEvent) {/*getdataCallback(elementId, statusId);*/
+        if(debug) { console.log(oEvent.toString()) };
     };
     oReq.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 201) {
-            getdataCallback();
+        if (this.readyState == 4 && this.status == 200) {
+            eventBus.trigger(successEventName);
         } else if (this.readyState == 4 && this.status == 0) {
+            eventBus.trigger(errorEventName);
         }
     };
-    if (oFormElement.method.toLowerCase() === "post") {
 
-        oReq.open("post", app.resourcesUrl);
-        oReq.send(new FormData(oFormElement));
-    } else {
-        var oField, sFieldType, nFile, sSearch = "";
-        for (var nItem = 0; nItem < oFormElement.elements.length; nItem++) {
-            oField = oFormElement.elements[nItem];
-            if (!oField.hasAttribute("name")) {
-                continue;
-            }
-            sFieldType = oField.nodeName.toUpperCase() === "INPUT" ? oField.getAttribute("type").toUpperCase() : "TEXT";
-            if (sFieldType === "FILE") {
-                for (nFile = 0; nFile < oField.files.length; sSearch += "&" + escape(oField.name) + "=" + escape(oField.files[nFile++].name))
-                    ;
-            } else if ((sFieldType !== "RADIO" && sFieldType !== "CHECKBOX") || oField.checked) {
-                sSearch += "&" + escape(oField.name) + "=" + escape(oField.value);
-            }
-        }
-        //oReq.open("get", oFormElement.action.replace(/(?:\?.*)?$/, sSearch.replace(/^&/, "?")), true);
-        oReq.open("get", app.resourcesUrl.replace(/(?:\?.*)?$/, sSearch.replace(/^&/, "?")), true);
-        oReq.send(null);
-    }
-    oFormElement.reset();
+    oReq.open("DELETE", url+"/"+id, true);
+    oReq.send(null);
     return false;
 }
-

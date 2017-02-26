@@ -1,7 +1,7 @@
 <app-form>
     <div class="row">
         <div class="col-md-12">
-            <button class="btn btn-default pull-right" onclick={ toggleForm }>+</button>
+            <button class="btn btn-default pull-right" onclick={ toggleForm }>{ visible ? '-' : '+' }</button>
         </div>
     </div>
     <div class="row" show={ visible }>
@@ -29,9 +29,9 @@
         submitForm = function(e){
             if(app.debug) { console.log("submitting ..."+e.target) }
             if (app.offline) {
-                submitLocally(e.target, "data:submitted");
+                submitLocally(e.target, globalEvents, "data:ready");
             }else{
-                postFormData(e.target, app.resourcesUrl, "data:submitted")
+                postFormData(e.target, app.resourcesUrl, globalEvents, "data:submitted", "data.error", app.debug)
             }
             e.target.reset()
             e.preventDefault()
@@ -47,13 +47,14 @@
         }
         
         // store application form data locally (if the service is not available)
-        submitLocally = function(oFormElement, eventName) {
+        submitLocally = function(oFormElement, eventBus, eventName) {
             var newToDo = {
+                "id": app.localUid++,
                 "name": oFormElement.elements["name"].value,
                 "description": oFormElement.elements["description"].value
             };
             app.myData.todos.push(newToDo);
-            globalEvents.trigger(eventName);
+            eventBus.trigger(eventName);
         }
         
         this.text = {

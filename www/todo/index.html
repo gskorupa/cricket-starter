@@ -40,7 +40,12 @@
         })
     </script>
     <script>
-        getData();
+        app.offline=true;
+        if(app.offline){
+            globalEvents.trigger("data:ready");
+        }else{
+            getData(app.resourcesUrl, app.myData, globalEvents, "data:ready", "data:error", app.debug);
+        }
     </script>
 </body>
 </html>
