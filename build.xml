@@ -46,10 +46,15 @@
         <mkdir dir="${build}"/>
     </target>
    
-    <target name="upgrade-dependencies" description="upload Cricket MSF library">
+    <target name="get-dependencies" description="upload Cricket MSF library">
+        <get
+            src="https://github.com/gskorupa/Cricket/releases/download/${cricket-version}/cricket-${cricket-version}.jar"
+            dest="lib/cricket-${cricket-version}.jar" 
+            usetimestamp="true" 
+        />
         <get 
-            src="http://cricketrepository.unicloud.pl/service/local/repositories/releases/content/org/cricketmsf/cricket/${cricket-version}/cricket-${cricket-version}.jar" 
-            dest="${cricket-jar-location}" 
+            src="https://github.com/gskorupa/Cricket/releases/download/${cricket-version}/cricket-${cricket-version}-javadoc.jar"
+            dest="lib/cricket-${cricket-version}-javadoc.jar" 
             usetimestamp="true" 
         />
     </target>
